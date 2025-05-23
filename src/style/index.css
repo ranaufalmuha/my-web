@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@theme {
+  --color-background: #212121;
+  --color-second-background: #1c1c1c;
+  --color-disabled: gray;
+  --color-accent: #678cec;
+}
+
+:root {
+  background-color: #212121;
+  color: white;
+}
+
+.border-gradient-to-l {
+  border-top: 1px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.5;
+  mask-image: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0)
+  );
+  -webkit-mask-image: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.border-gradient-to-r {
+  border-top: 1px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.5;
+  mask-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0)
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.border-gradient-to-t {
+  border-right: 1px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.5;
+  mask-image: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0)
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.border-gradient-to-b {
+  border-right: 1px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.5;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0)
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0)
+  );
+}
