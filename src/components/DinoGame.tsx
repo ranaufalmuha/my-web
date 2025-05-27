@@ -9,7 +9,8 @@ const DinoGame: React.FC = () => {
   const [horizontalPosition, setHorizontalPosition] = useState(50);
   const [velocity, setVelocity] = useState(0);
   // const [horizontalVelocity, setHorizontalVelocity] = useState(0);
-  const [isJumping, setIsJumping] = useState(false);
+  // const [isJumping, setIsJumping] = useState(false);
+  const [_isJumping, setIsJumping] = useState(false);
   const [jumpCount, setJumpCount] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -219,12 +220,12 @@ const DinoGame: React.FC = () => {
   }, []);
 
   // Debug state pada render untuk membantu troubleshooting
-  const debugInfo = {
-    position,
-    jumpCount,
-    isJumping,
-    canJump,
-  };
+  // const debugInfo = {
+  //   position,
+  //   jumpCount,
+  //   isJumping,
+  //   canJump,
+  // };
 
   return (
     <div className="flex flex-col items-center justify-center">
