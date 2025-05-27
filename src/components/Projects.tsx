@@ -38,13 +38,13 @@ export default function Projects({ onMouseEnter, onMouseLeave }: Props) {
     },
     {
       title: "Lost Club Toys Wallet",
-      url: "",
+      url: "https://lrpon-yyaaa-aaaao-qeuda-cai.icp0.io/",
       img_url: "./projects/lost-club-toys.webp",
       role: [{ position: "Full Stack Web3 Developer" }],
     },
     {
       title: "AIAI",
-      url: "",
+      url: "https://lfdma-iiaaa-aaaal-qjquq-cai.icp0.io/",
       img_url: "./projects/aiai.webp",
       role: [
         { position: "Smart Contract Developer" },
@@ -53,7 +53,7 @@ export default function Projects({ onMouseEnter, onMouseLeave }: Props) {
     },
     {
       title: "The Runner",
-      url: "",
+      url: "https://ranaufalmuha.itch.io/the-runners",
       img_url: "./projects/the-runner.png",
       role: [{ position: "Game Developer" }, { position: "Solo Project" }],
     },
