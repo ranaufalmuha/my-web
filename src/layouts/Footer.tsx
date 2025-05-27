@@ -23,13 +23,6 @@ export const Footer = () => {
         "He's been selected to attend the prestigious @UZH_en Summer School in Zurich (30 June – 18 July 2025), supported by the ICP ecosystem 🙌",
       link: "https://x.com/ranaufalmuha/status/1920770080545051069",
     },
-    {
-      img_url: null,
-      title: "",
-      description:
-        " Imagine if the Marauder's Map from Harry Potter didn't just track people… but also every transaction, contract, or promise ever made — with no way to lie, cheat, or vanish the evidence. That's blockchain.",
-      link: "https://medium.com/@ranaufalmuha/blockchain-is-like-a-magic-book-from-harry-potter-but-real-632d386d9833",
-    },
   ]);
 
   return (

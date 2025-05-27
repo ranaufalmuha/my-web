@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { MobileUI } from "./MobileUI";
 import { useCursor } from "../contexts/CursorContext";
 import Lenis from "@studio-freight/lenis";
-import DinoGame from "../components/DinoGame";
+// import DinoGame from "../components/DinoGame";
 import { Resume } from "../components/Resume";
 import Projects from "../components/Projects";
 
@@ -91,14 +91,14 @@ export const LandingPage = () => {
       </section>
 
       {/* section 2 Game ----------------------  */}
-      <section className="w-full flex justify-center relative">
+      {/* <section className="w-full flex justify-center relative">
         <hr className="border-gradient-to-r absolute bottom-0 w-full" />
         <div className="w-full max-w-[1500px] bg-second-background ">
           <div className="p-20">
             <DinoGame />
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* section 3 ----------------------  */}
       <section className="w-full relative">
@@ -140,10 +140,13 @@ export const LandingPage = () => {
       </section>
 
       {/* section 4 Projects ----------------------  */}
-      <Projects />
+      <Projects
+        onMouseEnter={() => handleMouseEnter(3)}
+        onMouseLeave={handleMouseLeave}
+      />
 
       {/* section 5 Resume ----------------------  */}
-      <section className="w-full flex relative justify-center">
+      <section id="resume" className="w-full flex relative justify-center">
         <hr className="border-gradient-to-l absolute bottom-0 left-0 z-10 w-full" />
         <div className="bg-second-background absolute w-1/2 left-0 h-full"></div>
         <div className="w-full max-w-[1500px] relative">

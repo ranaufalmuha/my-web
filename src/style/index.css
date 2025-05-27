@@ -6,6 +6,10 @@
   --color-accent: #678cec;
 }
 
+/* html {
+  scroll-behavior: smooth;
+} */
+
 :root {
   background-color: #212121;
   color: white;

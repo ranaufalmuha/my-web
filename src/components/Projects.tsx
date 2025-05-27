@@ -7,40 +7,55 @@ import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Projects() {
+interface Props {
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}
+
+export default function Projects({ onMouseEnter, onMouseLeave }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const projectList = [
     {
       title: "Peridot",
-      url: "",
-      description:
-        "A Blockchain Gaming Platform that allows you to Buy, Download and Play your favorite Games.",
-      className: "",
+      url: "https://peridot.icu",
+      img_url: "./projects/peridot.webp",
+      role: [
+        { position: "Chief Executive Officer" },
+        { position: "DApp Developer" },
+        { position: "Smart Contract Developer" },
+      ],
     },
     {
-      title: "Project 2 And Project",
-      url: "",
-      description: "",
-      className: "",
+      title: "Wintr",
+      url: "https://wintr.app",
+      img_url: "./projects/wintr.webp",
+      role: [
+        { position: "Chief Executive Officer" },
+        { position: "DApp Developer" },
+        { position: "Smart Contract Developer" },
+      ],
     },
     {
-      title: "Project 3 And Project",
+      title: "Lost Club Toys Wallet",
       url: "",
-      description: "",
-      className: "",
+      img_url: "./projects/lost-club-toys.webp",
+      role: [{ position: "Full Stack Web3 Developer" }],
     },
     {
-      title: "Project 4 And Project",
+      title: "AIAI",
       url: "",
-      description: "",
-      className: "",
+      img_url: "./projects/aiai.webp",
+      role: [
+        { position: "Smart Contract Developer" },
+        { position: "Web3 Integration" },
+      ],
     },
     {
-      title: "Project 5 And Project",
+      title: "The Runner",
       url: "",
-      description: "",
-      className: "",
+      img_url: "./projects/the-runner.png",
+      role: [{ position: "Game Developer" }, { position: "Solo Project" }],
     },
   ];
 
@@ -64,22 +79,13 @@ export default function Projects() {
         lenis.on("scroll", ScrollTrigger.update);
       }
 
-      const panels = gsap.utils.toArray<HTMLElement>(".myPanel");
-
-      // Hitung scroll distance dengan lebih akurat
-      const getScrollDistance = () => {
-        let totalWidth = 0;
-        panels.forEach((panel) => {
-          totalWidth += panel.offsetWidth;
-        });
-        return totalWidth - window.innerWidth;
-      };
-
-      const scrollDistance = getScrollDistance();
+      // Hitung total width container
+      const containerWidth = container.scrollWidth;
+      const scrollDistance = containerWidth - window.innerWidth;
 
       console.log("Creating ScrollTrigger with distance:", scrollDistance);
       console.log("Window width:", window.innerWidth);
-      console.log("Container width:", container.scrollWidth);
+      console.log("Container width:", containerWidth);
 
       // Set height section berdasarkan scroll distance
       gsap.set(section, {
@@ -98,11 +104,6 @@ export default function Projects() {
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            snap: {
-              snapTo: 1 / (projectList.length - 1), // 1 panel per snap
-              duration: { min: 0.2, max: 0.5 }, // Durasi animasi snap
-              ease: "power1.inOut",
-            },
             onUpdate: (self) => {
               console.log(
                 `Progress: ${self.progress.toFixed(2)}, X: ${(
@@ -152,16 +153,8 @@ export default function Projects() {
         });
 
         // Recalculate dan recreate
-        const panels = gsap.utils.toArray<HTMLElement>(".myPanel");
-        const getScrollDistance = () => {
-          let totalWidth = 0;
-          panels.forEach((panel) => {
-            totalWidth += panel.offsetWidth;
-          });
-          return totalWidth - window.innerWidth;
-        };
-
-        const scrollDistance = getScrollDistance();
+        const containerWidth = container.scrollWidth;
+        const scrollDistance = containerWidth - window.innerWidth;
 
         console.log("New scroll distance:", scrollDistance);
 
@@ -194,7 +187,7 @@ export default function Projects() {
 
         // Refresh setelah recreate
         ScrollTrigger.refresh();
-      }, 300); // Delay lebih lama untuk resize
+      }, 300);
     };
 
     window.addEventListener("resize", handleResize);
@@ -208,38 +201,70 @@ export default function Projects() {
     <section
       ref={sectionRef}
       id="projects"
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden "
     >
       <div
         ref={containerRef}
-        className="flex h-screen will-change-transform bg-second-background"
-        style={{ width: `${projectList.length * 100}vw` }}
+        className="flex h-screen will-change-transform items-center gap-12 px-24"
       >
-        {projectList.map((item, index) => (
-          <div
-            key={index}
-            className={`myPanel w-screen h-screen flex items-center justify-center gap-12 text-white flex-shrink-0 p-8 ${item.className}`}
-          >
+        {/* Section Work */}
+        <div className="flex-shrink-0 text-white h-1/2 aspect-3/5 mr-8 py-8">
+          <div className="flex flex-col justify-between h-full gap-8">
             {/* Title  */}
-            <div className="flex flex-col justify-between h-1/2 min-h-[500px] aspect-[4/5] py-8">
-              <div className="flex flex-col gap-4">
-                <h2 className="text-4xl font-semibold">Work</h2>
-                <p className="text-xl">
-                  A selection of our crafted work, built from scratch by our
-                  talented in-house team.
-                </p>
+            <div className="flex flex-col gap-6">
+              <h2 className="text-5xl font-normal">Projects</h2>
+              <p className="text-2xl font-light">
+                A selection of my crafted project, built from scratch by me
+                in-house.
+              </p>
+            </div>
+            {/* Hire Hook  */}
+            <a
+              href="/#resume"
+              className="hover:scale-105 duration-300"
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+            >
+              <span className="text-2xl border-b py-4">Hire Me →</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Semua Projects dengan jarak sama */}
+        {projectList.map((item, index) => (
+          <Link
+            key={index}
+            to={item.url}
+            target="_blank"
+            className="flex-shrink-0 h-1/2 aspect-4/5"
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            <div className="relative bg-black text-white p-12 w-full h-full transition-all flex flex-col justify-end gap-4 hover:bg-white hover:text-black hover:rotate-6 duration-300 group">
+              <h3 className="text-4xl font-normal z-10">{item.title}</h3>
+              <div className="flex flex-wrap gap-4 z-10">
+                {item.role?.map((item, i) => (
+                  <p
+                    key={i}
+                    className="text-sm border border-disabled/50 text-disabled p-2"
+                  >
+                    {item.position}
+                  </p>
+                ))}
               </div>
-              <div className="hover:scale-105 duration-300">
-                <Link to={""} className="border-b text-2xl py-4 ">
-                  <span>Got to Project → </span>
-                </Link>
+
+              <div className="">
+                <img
+                  src={item.img_url}
+                  alt=""
+                  className="absolute top-0 left-0 h-full w-full"
+                />
+                <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-t from-black via-black/50 group-hover:from-white group-hover:via-white/50 duration-300"></div>
               </div>
             </div>
-
-            {/* Image  */}
-            <div className="bg-accent min-h-[500px] h-1/2 aspect-square hover:bg-white hover:text-black hover:rotate-6 duration-300 transition-all"></div>
-          </div>
+          </Link>
         ))}
+        <div className="mr-12 opacity-0">.</div>
       </div>
     </section>
   );
