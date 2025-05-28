@@ -1,16 +1,12 @@
-import React, { ReactNode } from "react";
-// import { Outlet } from "react-router-dom";
+import React from "react";
+import { Outlet } from "react-router-dom";
 import { Footer } from "./Footer";
 import { Navbar } from "./Navbar";
 import { useMediaQuery } from "react-responsive";
 import { MobileUI } from "./../pages/MobileUI";
 import { CursorProvider, useCursor } from "../contexts/CursorContext";
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
-
-export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+export const MainLayout = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1000px)" });
 
   return (
@@ -22,7 +18,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
 const MainLayoutContent: React.FC<
   React.PropsWithChildren<{ isMobile: boolean }>
-> = ({ isMobile, children }) => {
+> = ({ isMobile }) => {
   const { clientX, clientY, scale, setClientX, setClientY } = useCursor();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -43,7 +39,7 @@ const MainLayoutContent: React.FC<
       ) : (
         <div className="flex flex-col justify-between min-h-dvh">
           <Navbar />
-          {children}
+          <Outlet />
           <Footer />
 
           {/* Background layer */}
