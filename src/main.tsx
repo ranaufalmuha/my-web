@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./style/index.css";
-import { HashRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import AppRoute from "./routes";
 
 // Create a root wrapper component
