@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+
+# Google, you can look at whatever you want
+User-agent: Googlebot
+Disallow: 
