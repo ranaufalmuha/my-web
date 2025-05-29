@@ -27,7 +27,7 @@ export const Footer = () => {
 
   return (
     <footer className="flex flex-col">
-      <h1 className="hidden">Footer</h1>
+      <h2 className="hidden">Footer</h2>
       {/* content  */}
       <div className="flex w-full">
         <section className="p-20 w-3/6 bg-second-background relative flex flex-col gap-20 justify-between">
@@ -113,7 +113,7 @@ export const Footer = () => {
                   alt={item.title}
                 />
               )}
-              <h4 className="text-3xl z-10">{item.title}</h4>
+              <h3 className="text-3xl z-10">{item.title}</h3>
               <p className="text-disabled text-sm z-10">{item.description}</p>
             </Link>
           ))}
