@@ -17,8 +17,8 @@ export default function Projects({ onMouseEnter, onMouseLeave }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const projectList = [
     {
-      title: "Peridot",
-      url: "https://peridot.icu",
+      title: "PeridotVault",
+      url: "https://peridotvault.com",
       img_url: "./projects/peridot.webp",
       role: [
         { position: "Chief Executive Officer" },

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { MobileUI } from "./MobileUI";
 import { useCursor } from "../contexts/CursorContext";
 import Lenis from "@studio-freight/lenis";
-// import DinoGame from "../components/DinoGame";
+import DinoGame from "../components/DinoGame";
 import { Resume } from "../components/Resume";
 import Projects from "../components/Projects";
 
@@ -85,20 +85,10 @@ export const LandingPage = () => {
             <MobileUI />
             <hr className="border-gradient-to-b h-[80%]" />
           </div>
-          <div className="h-[80dvh] max-h-[900px] w-full bg-radial-[at_90%_0%] from-[#244E9D] via-[#34386E] to-[#922A2A]"></div>
+          <div className="h-[80dvh] max-h-[900px] w-full bg-radial-[at_90%_0%] from-purple-950/50 via-gray-800 to-black/80"></div>
           <hr className="absolute right-0 w-full border-gradient-to-l" />
         </div>
       </section>
-
-      {/* section 2 Game ----------------------  */}
-      {/* <section className="w-full flex justify-center relative">
-        <hr className="border-gradient-to-r absolute bottom-0 w-full" />
-        <div className="w-full max-w-[1500px] bg-second-background ">
-          <div className="p-20">
-            <DinoGame />
-          </div>
-        </div>
-      </section> */}
 
       {/* section 3 ----------------------  */}
       <section className="w-full relative">
@@ -131,7 +121,8 @@ export const LandingPage = () => {
             </div>
             <div className="snap-start ">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg/1200px-Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg.png"
+                src="https://pbs.twimg.com/profile_images/1222627230536343558/LRFCfJqi_400x400.jpg"
+                alt="University of Zurich Blockchain Center"
                 className="h-6 grayscale px-2 scale-200"
               />
             </div>
@@ -144,6 +135,16 @@ export const LandingPage = () => {
         onMouseEnter={() => handleMouseEnter(3)}
         onMouseLeave={handleMouseLeave}
       />
+
+      {/* section 2 Game ----------------------  */}
+      <section className="w-full flex justify-center relative">
+        <hr className="border-gradient-to-r absolute bottom-0 w-full" />
+        <div className="w-full max-w-[1500px] bg-second-background ">
+          <div className="p-20">
+            <DinoGame />
+          </div>
+        </div>
+      </section>
 
       {/* section 5 Resume ----------------------  */}
       <section id="resume" className="w-full flex relative justify-center">
