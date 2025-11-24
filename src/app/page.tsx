@@ -4,11 +4,11 @@
 
 import DinoGame from "@/shared/components/DinoGame";
 import { MobileUI } from "@/shared/components/MobileUI";
-import Projects from "@/shared/components/Projects";
 import { Resume } from "@/shared/components/Resume";
 import { CursorProvider, useCursor } from "@/shared/contexts/CursorContext";
 import Lenis from "lenis";
 import { useEffect } from "react";
+import ProjectSection from "./_components/ProjectSection";
 
 export default function LandingPage() {
   return (
@@ -150,7 +150,7 @@ const LandingPageContent = () => {
       </section>
 
       {/* section 4 Projects ----------------------  */}
-      <Projects
+      <ProjectSection
         onMouseEnter={() => handleMouseEnter(3)}
         onMouseLeave={handleMouseLeave}
       />
@@ -175,4 +175,4 @@ const LandingPageContent = () => {
       </section>
     </div>
   );
-}
+};

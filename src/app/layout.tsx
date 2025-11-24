@@ -74,7 +74,7 @@ const MainLayoutContent: React.FC<{
               backgroundSize: "15px 15px",
             }}
           ></div>
-          <div className="absolute w-full h-[120dvh] bg-gradient-to-b from-[#1c1c1c] top-0 -z-50"></div>
+          <div className="absolute w-full h-[120dvh] bg-linear-to-b from-second-background top-0 -z-50"></div>
         </div>
       )}
 
