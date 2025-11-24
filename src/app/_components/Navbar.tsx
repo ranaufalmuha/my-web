@@ -1,4 +1,8 @@
-import { useCursor } from "../contexts/CursorContext";
+"use client";
+
+/* eslint-disable @next/next/no-img-element */
+
+import { useCursor } from "../../shared/contexts/CursorContext";
 
 export const Navbar = () => {
   const { handleMouseEnter, handleMouseLeave } = useCursor();

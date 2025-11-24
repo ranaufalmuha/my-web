@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const DinoGame: React.FC = () => {
@@ -10,7 +13,6 @@ const DinoGame: React.FC = () => {
   const [velocity, setVelocity] = useState(0);
   // const [horizontalVelocity, setHorizontalVelocity] = useState(0);
   // const [isJumping, setIsJumping] = useState(false);
-  const [_isJumping, setIsJumping] = useState(false);
   const [jumpCount, setJumpCount] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -72,7 +74,7 @@ const DinoGame: React.FC = () => {
     });
   }, [keysPressed]);
 
-  const gameLoop = useCallback(() => {
+  const gameLoop = useCallback(function loop() {
     // Update posisi vertikal (lompatan)
     setPosition((prev) => {
       let newVelocity = velocity;
@@ -86,9 +88,8 @@ const DinoGame: React.FC = () => {
         newPos = groundY;
         newVelocity = 0;
         // Reset jumpCount hanya ketika karakter benar-benar menyentuh tanah
-        if (position < groundY) {
+        if (prev < groundY) {
           setJumpCount(0);
-          setIsJumping(false);
         }
       }
 
@@ -117,7 +118,7 @@ const DinoGame: React.FC = () => {
     }
 
     if (!isGameOver && isStarted) {
-      animationFrameRef.current = requestAnimationFrame(gameLoop);
+      animationFrameRef.current = requestAnimationFrame(loop);
     }
   }, [
     velocity,
@@ -125,7 +126,9 @@ const DinoGame: React.FC = () => {
     isGameOver,
     isStarted,
     updateHorizontalPosition,
-    position,
+    GRAVITY,
+    HOLD_BOOST,
+    groundY,
   ]);
 
   useEffect(() => {
@@ -155,8 +158,7 @@ const DinoGame: React.FC = () => {
 
     setVelocity(JUMP_VELOCITY);
     setJumpCount((prev) => prev + 1);
-    setIsJumping(true);
-  }, [jumpCount, isGameOver, isStarted, canJump, position]);
+  }, [JUMP_VELOCITY, canJump, isGameOver, isStarted, jumpCount]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -234,8 +236,8 @@ const DinoGame: React.FC = () => {
         className="relative w-full h-[400px] border-t border-b border-gray-400 overflow-hidden"
       >
         <div
-          ref={dinoRef}
-          className="absolute w-[50px] h-[50px]rounded-md"
+        ref={dinoRef}
+        className="absolute w-[50px] h-[50px] rounded-md"
           style={{
             top: `${position}px`,
             left: `${horizontalPosition}px`,

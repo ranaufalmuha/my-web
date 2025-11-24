@@ -1,5 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import Link from "next/link";
 import { GithubIcon, LinkedinIcon } from "../assets/Icons";
-import { Link } from "react-router-dom";
 import { useCursor } from "../contexts/CursorContext";
 
 export const MobileUI = () => {
@@ -47,7 +50,7 @@ export const MobileUI = () => {
               <img
                 src="https://avatars.githubusercontent.com/u/153919071?v=4"
                 className="w-full h-full object-cover"
-                alt=""
+                alt="Ranaufal Muha avatar"
                 draggable={false}
                 onMouseEnter={() => handleMouseEnter(3)}
                 onMouseLeave={handleMouseLeave}
@@ -57,7 +60,7 @@ export const MobileUI = () => {
             {/* social  */}
             <div className="pb-10 text-white flex gap-8 ">
               <Link
-                to={"https://wintr.app/ranaufal"}
+                href={"https://wintr.app/ranaufal"}
                 target="_blank"
                 onClick={() => {}}
                 className="mix-blend-difference"
@@ -66,12 +69,13 @@ export const MobileUI = () => {
               >
                 <img
                   src="./wintr_logo.svg"
+                  alt="Wintr profile"
                   className="w-[24px] h-[24px]"
                   draggable={false}
                 />
               </Link>
               <Link
-                to={"https://linkedin.com/in/ranaufalmuha"}
+                href={"https://linkedin.com/in/ranaufalmuha"}
                 target="_blank"
                 onClick={() => {}}
                 className="mix-blend-difference"
@@ -81,7 +85,7 @@ export const MobileUI = () => {
                 <LinkedinIcon />
               </Link>
               <Link
-                to={"https://github.com/ranaufalmuha"}
+                href={"https://github.com/ranaufalmuha"}
                 target="_blank"
                 onClick={() => {}}
                 className="mix-blend-difference"

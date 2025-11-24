@@ -1,9 +1,11 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
 import { useEffect, useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +13,11 @@ interface Props {
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }
+
+type LenisInstance = {
+  on: (event: string, handler: () => void) => void;
+  off: (event: string, handler: () => void) => void;
+};
 
 export default function Projects({ onMouseEnter, onMouseLeave }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -65,16 +72,16 @@ export default function Projects({ onMouseEnter, onMouseLeave }: Props) {
 
     if (!section || !container) return;
 
-    let ctx: gsap.Context;
-    let lenis: any;
+    let ctx: gsap.Context | undefined;
+    let lenis: LenisInstance | undefined;
 
     const createScrollTrigger = () => {
       // Clear previous context
       if (ctx) ctx.revert();
 
-      // Integrasi dengan Lenis
-      // @ts-ignore
-      lenis = window.lenis;
+      const lenisFromWindow = (window as unknown as { lenis?: LenisInstance })
+        .lenis;
+      lenis = lenisFromWindow;
       if (lenis) {
         lenis.on("scroll", ScrollTrigger.update);
       }
@@ -219,14 +226,14 @@ export default function Projects({ onMouseEnter, onMouseLeave }: Props) {
               </p>
             </div>
             {/* Hire Hook  */}
-            <a
+            <Link
               href="/#resume"
               className="hover:scale-105 duration-300"
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}
             >
               <span className="text-2xl border-b py-4">Hire Me →</span>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -234,8 +241,9 @@ export default function Projects({ onMouseEnter, onMouseLeave }: Props) {
         {projectList.map((item, index) => (
           <Link
             key={index}
-            to={item.url}
+            href={item.url}
             target="_blank"
+            rel="noreferrer"
             className="flex-shrink-0 h-1/2 aspect-4/5"
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
