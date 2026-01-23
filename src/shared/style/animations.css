@@ -1,0 +1,69 @@
+@keyframes gradient-slow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradient-fast {
+  0% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.bg-gradient-1 {
+  background: linear-gradient(
+    130deg,
+    var(--color-primary),
+    var(--color-primary-foreground),
+    var(--color-secondary),
+    var(--color-secondary-foreground)
+  );
+  background-size: 400% 400%;
+}
+
+.bg-gradient-2 {
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(63, 66, 227, 0.35),
+      transparent 60%
+    ),
+    radial-gradient(circle at 80% 70%, rgba(99, 16, 176, 0.25), transparent 60%);
+}
+
+.animate-gradient-slow {
+  animation: gradient-slow 24s ease infinite;
+}
+
+.animate-gradient-fast {
+  animation: gradient-fast 14s ease infinite;
+}
+
+@theme inline {
+  --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1
+    var(--delay, 0ms);
+}
+
+@keyframes cell-ripple {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}

@@ -1,0 +1,23 @@
+.border-gradient-to-l {
+  border-top: 1px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.5;
+  mask-image: linear-gradient(to left, white, transparent);
+}
+
+.border-gradient-to-r {
+  border-top: 1px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.5;
+  mask-image: linear-gradient(to right, white, transparent);
+}
+
+.border-gradient-to-t {
+  border-right: 1px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.5;
+  mask-image: linear-gradient(to top, white, transparent);
+}
+
+.border-gradient-to-b {
+  border-right: 1px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.5;
+  mask-image: linear-gradient(to bottom, white, transparent);
+}

@@ -1,10 +1,8 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-import { useEffect, useRef, useLayoutEffect } from "react";
+import { memo, useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,266 +11,60 @@ interface Props {
   onMouseLeave: () => void;
 }
 
-type LenisInstance = {
-  on: (event: string, handler: () => void) => void;
-  off: (event: string, handler: () => void) => void;
-};
-
-export default function ProjectSection({ onMouseEnter, onMouseLeave }: Props) {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const projectList = [
-    {
-      title: "PeridotVault",
-      url: "https://peridotvault.com",
-      img_url: "./projects/peridot.webp",
-      role: [
-        { position: "Chief Executive Officer" },
-        { position: "DApp Developer" },
-        { position: "Smart Contract Developer" },
-      ],
-    },
-    {
-      title: "Wintr",
-      url: "https://wintr.app",
-      img_url: "./projects/wintr.webp",
-      role: [
-        { position: "Chief Executive Officer" },
-        { position: "DApp Developer" },
-        { position: "Smart Contract Developer" },
-      ],
-    },
-    {
-      title: "Lost Club Toys Wallet",
-      url: "https://lrpon-yyaaa-aaaao-qeuda-cai.icp0.io/",
-      img_url: "./projects/lost-club-toys.webp",
-      role: [{ position: "Full Stack Web3 Developer" }],
-    },
-    {
-      title: "AIAI",
-      url: "https://lfdma-iiaaa-aaaal-qjquq-cai.icp0.io/",
-      img_url: "./projects/aiai.webp",
-      role: [
-        { position: "Smart Contract Developer" },
-        { position: "Web3 Integration" },
-      ],
-    },
-    {
-      title: "The Runner",
-      url: "https://ranaufalmuha.itch.io/the-runners",
-      img_url: "./projects/the-runner.png",
-      role: [{ position: "Game Developer" }, { position: "Solo Project" }],
-    },
-  ];
+const ProjectSection = ({ onMouseEnter, onMouseLeave }: Props) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    const container = containerRef.current;
+    if (!section) return;
 
-    if (!section || !container) return;
+    // ✅ GSAP CONTEXT — kosong & aman
+    const ctx = gsap.context(() => {
+      // ⬇️ NANTI kamu bebas isi animasi di sini
+      // contoh:
+      // gsap.from(canvasRef.current, { opacity: 0 });
+    }, section);
 
-    let ctx: gsap.Context | undefined;
-    let lenis: LenisInstance | undefined;
-
-    const createScrollTrigger = () => {
-      // Clear previous context
-      if (ctx) ctx.revert();
-
-      const lenisFromWindow = (window as unknown as { lenis?: LenisInstance })
-        .lenis;
-      lenis = lenisFromWindow;
-      if (lenis) {
-        lenis.on("scroll", ScrollTrigger.update);
-      }
-
-      // Hitung total width container
-      const containerWidth = container.scrollWidth;
-      const scrollDistance = containerWidth - window.innerWidth;
-
-      console.log("Creating ScrollTrigger with distance:", scrollDistance);
-      console.log("Window width:", window.innerWidth);
-      console.log("Container width:", containerWidth);
-
-      // Set height section berdasarkan scroll distance
-      gsap.set(section, {
-        height: `${scrollDistance + window.innerHeight}px`,
-      });
-
-      ctx = gsap.context(() => {
-        gsap.to(container, {
-          x: -scrollDistance,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: `bottom bottom`,
-            scrub: 1,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              console.log(
-                `Progress: ${self.progress.toFixed(2)}, X: ${(
-                  -scrollDistance * self.progress
-                ).toFixed(0)}`
-              );
-            },
-            onRefresh: () => {
-              console.log("ScrollTrigger refreshed");
-            },
-          },
-        });
-      }, section);
-    };
-
-    // Initial setup dengan delay
-    const timer = setTimeout(createScrollTrigger, 100);
-
-    return () => {
-      clearTimeout(timer);
-      if (ctx) ctx.revert();
-      if (lenis) {
-        lenis.off("scroll", ScrollTrigger.update);
-      }
-    };
-  }, []);
-
-  // Handle resize dengan recreate ScrollTrigger
-  useEffect(() => {
-    let resizeTimeout: NodeJS.Timeout;
-
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        console.log("Window resized, recreating ScrollTrigger...");
-
-        const section = sectionRef.current;
-        const container = containerRef.current;
-
-        if (!section || !container) return;
-
-        // Kill semua ScrollTrigger di section ini
-        ScrollTrigger.getAll().forEach((trigger) => {
-          if (trigger.trigger === section) {
-            trigger.kill();
-          }
-        });
-
-        // Recalculate dan recreate
-        const containerWidth = container.scrollWidth;
-        const scrollDistance = containerWidth - window.innerWidth;
-
-        console.log("New scroll distance:", scrollDistance);
-
-        // Update section height
-        gsap.set(section, {
-          height: `${scrollDistance + window.innerHeight}px`,
-        });
-
-        // Recreate ScrollTrigger
-        gsap.to(container, {
-          x: -scrollDistance,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: `bottom bottom`,
-            scrub: 1,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              console.log(
-                `Progress: ${self.progress.toFixed(2)}, X: ${(
-                  -scrollDistance * self.progress
-                ).toFixed(0)}`
-              );
-            },
-          },
-        });
-
-        // Refresh setelah recreate
-        ScrollTrigger.refresh();
-      }, 300);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(resizeTimeout);
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
     <section
       ref={sectionRef}
       id="projects"
-      className="relative w-full overflow-hidden "
+      className="relative w-full min-h-dvh"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
+      {/* =====================================================
+          KANVAS KOSONG — BEBAS KAMU DESAIN
+      ===================================================== */}
       <div
-        ref={containerRef}
-        className="flex h-screen will-change-transform items-center gap-12 px-24"
+        ref={canvasRef}
+        className="
+          relative
+          w-full
+          h-dvh
+          flex
+          items-center
+          justify-center
+          overflow-hidden
+          bg-transparent
+        "
       >
-        {/* Section Work */}
-        <div className="shrink-0 text-white h-1/2 aspect-3/5 mr-8 py-8">
-          <div className="flex flex-col justify-between h-full gap-8">
-            {/* Title  */}
-            <div className="flex flex-col gap-6">
-              <h2 className="text-5xl font-normal">Projects</h2>
-              <p className="text-2xl font-light">
-                A selection of my crafted project, built from scratch by me
-                in-house.
-              </p>
-            </div>
-            {/* Hire Hook  */}
-            <Link
-              href="/#resume"
-              className="hover:scale-105 duration-300"
-              onMouseEnter={onMouseEnter}
-              onMouseLeave={onMouseLeave}
-            >
-              <span className="text-2xl border-b py-4">Hire Me →</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Semua Projects dengan jarak sama */}
-        {projectList.map((item, index) => (
-          <Link
-            key={index}
-            href={item.url}
-            target="_blank"
-            rel="noreferrer"
-            className="shrink-0 h-1/2 aspect-4/5"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          >
-            <div className="relative bg-black text-white p-12 w-full h-full transition-all flex flex-col justify-end gap-4 hover:bg-white hover:text-black hover:rotate-6 duration-300 group">
-              <h3 className="text-4xl font-normal z-10">{item.title}</h3>
-              <div className="flex flex-wrap gap-4 z-10">
-                {item.role?.map((item, i) => (
-                  <p
-                    key={i}
-                    className="text-sm border border-disabled/50 text-disabled p-2"
-                  >
-                    {item.position}
-                  </p>
-                ))}
-              </div>
-
-              <div className="">
-                <img
-                  src={item.img_url}
-                  alt=""
-                  className="absolute top-0 left-0 h-full w-full"
-                />
-                <div className="absolute top-0 left-0 h-full w-full bg-linear-to-t from-black via-black/50 group-hover:from-white group-hover:via-white/50 duration-300"></div>
-              </div>
-            </div>
-          </Link>
-        ))}
-        <div className="mr-12 opacity-0">.</div>
+        {/* 
+          🔥 KOSONG
+          Bangun UI di sini:
+          - horizontal scroll
+          - cards
+          - canvas
+          - three.js
+          - apa pun
+        */}
       </div>
     </section>
   );
-}
+};
+
+export default memo(ProjectSection);

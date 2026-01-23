@@ -7,8 +7,8 @@ import { useCursor } from "../../shared/contexts/CursorContext";
 export const Navbar = () => {
   const { handleMouseEnter, handleMouseLeave } = useCursor();
   return (
-    <nav className="flex justify-center absolute w-full z-20 pointer-events-none">
-      <div className="max-w-[1500px] p-10 w-full relative">
+    <nav className="flex justify-center fixed w-full bg-surface z-20 pointer-events-none h-16">
+      <div className="max-w-7xl w-full relative">
         <img
           src="./logo-white.png"
           alt=""

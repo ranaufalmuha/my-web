@@ -51,7 +51,7 @@ export const Footer = () => {
       <h2 className="sr-only">Footer</h2>
       <div className="flex w-full">
         {/* Left Section */}
-        <section className="p-20 w-3/6 bg-second-background relative flex flex-col gap-20 justify-between">
+        <section className="p-20 w-3/6 bg-surface text-surface-foreground relative flex flex-col gap-20 justify-between">
           <div className="flex flex-col gap-20" id="contact">
             <img
               src="/logo-white.png"
@@ -124,7 +124,7 @@ export const Footer = () => {
               rel="noopener noreferrer"
               onMouseEnter={() => handleMouseEnter(1.5)}
               onMouseLeave={handleMouseLeave}
-              className="p-20 bg-second-background aspect-square border border-white/10 hover:bg-white hover:text-black hover:rotate-6 duration-300 flex flex-col justify-between gap-10 relative"
+              className="p-20 bg-surface text-surface-foreground aspect-square border border-white/10 hover:bg-white hover:text-black hover:rotate-6 duration-300 flex flex-col justify-between gap-10 relative"
             >
               {item.img_url && (
                 <img

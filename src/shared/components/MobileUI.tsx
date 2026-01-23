@@ -10,7 +10,7 @@ export const MobileUI = () => {
 
   return (
     <div className="relative h-full w-full">
-      <main className="flex-col flex h-full w-full justify-between relative z-10">
+      <div className="flex-col flex h-full w-full justify-between relative z-10">
         {/* Header  */}
         <section className="">
           <div className="flex justify-end">
@@ -34,19 +34,19 @@ export const MobileUI = () => {
         <div className="flex-col flex">
           {/* links  */}
           <section className="p-10 max-w-[500px]">
-            <p
+            <h1
               className="text-4xl mix-blend-difference"
               onMouseEnter={() => handleMouseEnter(3)}
               onMouseLeave={handleMouseLeave}
             >
-              Web3 & Smart Contract Developer
-            </p>
+              Creative Frontend Engineer & Web3 Developer
+            </h1>
           </section>
           {/* links  */}
           <hr className="border-gradient-to-r" />
           <section className="flex items-end gap-10 ">
             {/* img  */}
-            <div className="max-w-[200px] max-h-[200px] min-w-[150px] min-h-[150px] w-1/2 aspect-square flex justify-end">
+            <div className="max-w-[300px] max-h-[300px] min-w-[150px] min-h-[150px] w-1/2 aspect-square flex justify-end">
               <img
                 src="https://avatars.githubusercontent.com/u/153919071?v=4"
                 className="w-full h-full object-cover"
@@ -97,17 +97,16 @@ export const MobileUI = () => {
             </div>
           </section>
         </div>
-      </main>
+      </div>
 
       {/* background  */}
-      <video
-        autoPlay
-        muted
-        loop
-        className="absolute top-0 left-0 w-full h-full object-cover "
-      >
-        <source src="https://cdn.prod.website-files.com/6425f546844727ce5fb9e5ab/6568a1c859ceca16cf4653d6_Var6-transcode.mp4" />
-      </video>
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Layer 1 */}
+        <div className="absolute inset-0 bg-gradient-1 animate-gradient-slow" />
+
+        {/* Layer 2 */}
+        <div className="absolute inset-0 bg-gradient-2 animate-gradient-fast mix-blend-overlay opacity-70" />
+      </div>
     </div>
   );
 };

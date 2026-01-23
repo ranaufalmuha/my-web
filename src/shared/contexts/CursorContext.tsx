@@ -3,13 +3,9 @@
 import React, { createContext, useContext, useState } from "react";
 
 interface CursorContextType {
-  clientX: number;
-  clientY: number;
   scale: number;
   handleMouseEnter: (val: number) => void;
   handleMouseLeave: () => void;
-  setClientX: (x: number) => void;
-  setClientY: (y: number) => void;
 }
 
 const CursorContext = createContext<CursorContextType | undefined>(undefined);
@@ -17,8 +13,6 @@ const CursorContext = createContext<CursorContextType | undefined>(undefined);
 export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [clientX, setClientX] = useState(150);
-  const [clientY, setClientY] = useState(150);
   const [scale, setScale] = useState(1);
 
   const handleMouseEnter = (val: number) => {
@@ -32,13 +26,9 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <CursorContext.Provider
       value={{
-        clientX,
-        clientY,
         scale,
         handleMouseEnter,
         handleMouseLeave,
-        setClientX,
-        setClientY,
       }}
     >
       {children}
