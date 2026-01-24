@@ -1,3 +1,15 @@
+:root {
+  --color-border: #ffffff1f;
+}
+
+@theme {
+  --color-border: var(--color-border);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
 .border-gradient-to-l {
   border-top: 1px dashed rgba(255, 255, 255, 0.8);
   opacity: 0.5;

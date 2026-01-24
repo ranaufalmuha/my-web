@@ -47,11 +47,11 @@ export const Footer = () => {
   const { handleMouseEnter, handleMouseLeave } = useCursor();
 
   return (
-    <footer className="flex flex-col">
+    <footer className="flex flex-col border-t">
       <h2 className="sr-only">Footer</h2>
       <div className="flex w-full">
         {/* Left Section */}
-        <section className="p-20 w-3/6 bg-surface text-surface-foreground relative flex flex-col gap-20 justify-between">
+        <section className="p-20 w-3/6 bg-surface text-surface-foreground relative flex flex-col gap-20 justify-between border-r">
           <div className="flex flex-col gap-20" id="contact">
             <img
               src="/logo-white.png"
@@ -108,14 +108,14 @@ export const Footer = () => {
           </div>
 
           <p className="text-sm text-disabled">
-            &copy; Copyright 2025 Ranaufal Muha
+            &copy; Copyright 2026 Ranaufal Muha
           </p>
         </section>
 
         <div className="w-1/6" />
 
         {/* Right Section - Highlights */}
-        <section className="w-2/6 relative justify-between flex flex-col gap-20">
+        <section className="w-2/6 relative justify-between flex flex-col gap-20 border-l">
           {HIGHLIGHT_POSTS.map((item, index) => (
             <Link
               key={index}
@@ -124,7 +124,7 @@ export const Footer = () => {
               rel="noopener noreferrer"
               onMouseEnter={() => handleMouseEnter(1.5)}
               onMouseLeave={handleMouseLeave}
-              className="p-20 bg-surface text-surface-foreground aspect-square border border-white/10 hover:bg-white hover:text-black hover:rotate-6 duration-300 flex flex-col justify-between gap-10 relative"
+              className="p-20 bg-surface text-surface-foreground aspect-square border-y hover:bg-white hover:text-black hover:rotate-6 duration-300 flex flex-col justify-between gap-10 relative"
             >
               {item.img_url && (
                 <img

@@ -4,7 +4,7 @@ import { Navbar } from "@/app/_components/Navbar";
 import { Footer } from "@/app/_components/Footer";
 import { useCursorLayer } from "@/shared/hooks/useCursorLayer";
 import { CursorLayer } from "../CursorLayer";
-import { BackgroundRippleEffect } from "../ui/BackgroundRippleEffect";
+// import { BackgroundRippleEffect } from "../ui/BackgroundRippleEffect";
 
 interface Props {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ export function AppShell({ children }: Props) {
         <Footer />
       </div>
 
-      <BackgroundRippleEffect />
+      {/* <BackgroundRippleEffect /> */}
       <CursorLayer cursorRef={cursorRef} />
     </main>
   );

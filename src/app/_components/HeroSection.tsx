@@ -97,7 +97,7 @@ export default function HeroSection() {
         0,
       );
 
-      tl.to(".hero-welcome", { yPercent: -10 }, "<");
+      tl.to(".hero-welcome", { yPercent: -15 }, "<");
 
       tl.to(
         ".hero-gallery-container",
@@ -118,16 +118,21 @@ export default function HeroSection() {
       <section className="h-screen overflow-hidden flex flex-col items-center justify-between relative z-5 bg-background border-b border-foreground/20">
         <div className=""></div>
         <div className="hero-welcome flex flex-col items-center gap-6 md:gap-8 lg:gap-10 z-10 px-4 duration-300 absolute h-full w-full justify-center pointer-events-none ">
-          <h1 className="hero-title text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center max-w-6xl duration-300">
-            Start
-            <span className="font-fraunces"> Level One</span>, <br />
-            Think <span className="font-fraunces"> Late Game</span>
-          </h1>
+          <div className="flex flex-col gap-4 items-center">
+            <span className="text-paragraph ">
+              Hi 👋🏻, I{"'"}m Creative Frontend Engineer
+            </span>
+            <h1 className="hero-title text-5xl lg:text-6xl xl:text-7xl text-center max-w-6xl duration-300">
+              Start
+              <span className="font-fraunces"> Level One</span>, <br />
+              Think <span className="font-fraunces"> Late Game</span>
+            </h1>
+          </div>
 
           {/* ========================================================
             CTA
           ======================================================== */}
-          <Button href="/#character-section" text="Explore Characters" />
+          <Button href="/#character-section" text="My Works" />
         </div>
 
         {/* ========================================================
