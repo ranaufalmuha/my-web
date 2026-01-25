@@ -6,7 +6,12 @@ import { gsap } from "@/shared/lib/gsap";
 import nftList from "@/shared/assets/gallery.json";
 import Button from "@/shared/components/ui/Button";
 
-export default function HeroSection() {
+interface Props {
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}
+
+export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const sizeVariants = [
@@ -143,6 +148,8 @@ export default function HeroSection() {
             <div
               key={i}
               className={`${sizeVariants[i]} hero-card aspect-square bg-muted group`}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
             >
               <img
                 src={item.image}

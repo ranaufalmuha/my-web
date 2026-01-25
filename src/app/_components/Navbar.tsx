@@ -1,5 +1,6 @@
 "use client";
 
+import { Container } from "@/shared/components/providers/Container";
 /* eslint-disable @next/next/no-img-element */
 
 import { useCursor } from "../../shared/contexts/CursorContext";
@@ -7,8 +8,8 @@ import { useCursor } from "../../shared/contexts/CursorContext";
 export const Navbar = () => {
   const { handleMouseEnter, handleMouseLeave } = useCursor();
   return (
-    <nav className="flex justify-center fixed w-full bg-surface z-20 pointer-events-none h-16 items-center border-b">
-      <div className="max-w-7xl w-full relative">
+    <nav className="fixed w-full bg-surface z-20 border-b">
+      <Container className="p-4 flex justify-center items-center">
         <div className="flex items-center gap-2">
           <img
             src="./logo-white.png"
@@ -18,9 +19,8 @@ export const Navbar = () => {
             onMouseEnter={() => handleMouseEnter(2)}
             onMouseLeave={handleMouseLeave}
           />
-          <span className="font-bold">Ranaufal Muha</span>
         </div>
-      </div>
+      </Container>
     </nav>
   );
 };

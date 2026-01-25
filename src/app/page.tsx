@@ -1,15 +1,10 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
-import DinoGame from "@/shared/components/DinoGame";
-// import { MobileUI } from "@/shared/components/MobileUI";
-import { Resume } from "@/shared/components/Resume";
 import { useCursor } from "@/shared/contexts/CursorContext";
-import ProjectSection from "./_components/ProjectSection";
 import HeroSection from "./_components/HeroSection";
 import { WhatIDoSection } from "@/features/me/components/WhatIDoSection";
 import AboutMeSection from "@/features/me/components/AboutMeSection";
+import { WorksSection } from "@/features/work/components/WorksSection";
 
 // ========================================================
 // MAIN PAGE
@@ -24,7 +19,10 @@ export default function LandingPage() {
       {/* ========================================================
           SECTION HERO
       ======================================================== */}
-      <HeroSection />
+      <HeroSection
+        onMouseEnter={() => handleMouseEnter(3)}
+        onMouseLeave={handleMouseLeave}
+      />
 
       {/* ========================================================
           SECTION WHAT I DO?
@@ -37,8 +35,12 @@ export default function LandingPage() {
       <AboutMeSection />
 
       {/* ========================================================
-          SECTION WORKS COMPANY
+          SECTION WORKS
       ======================================================== */}
+      <WorksSection
+        onMouseEnter={() => handleMouseEnter(3)}
+        onMouseLeave={handleMouseLeave}
+      />
       {/* <WorksCompaniesSection /> */}
 
       {/* section 4 Projects ----------------------  */}
@@ -135,53 +137,53 @@ export default function LandingPage() {
   // ========================================================
   // SECTION WORKS COMPANY
   // ========================================================
-  function WorksCompaniesSection() {
-    return (
-      <section className="w-full relative">
-        <hr className="border-gradient-to-r absolute top-0 w-full" />
-        <hr className="border-gradient-to-l absolute bottom-0 w-full" />
+  // function WorksCompaniesSection() {
+  //   return (
+  //     <section className="w-full relative">
+  //       <hr className="border-gradient-to-r absolute top-0 w-full" />
+  //       <hr className="border-gradient-to-l absolute bottom-0 w-full" />
 
-        {/* Companies  */}
-        <div className="bg-surface py-12 pl-14 overflow-x-auto flex justify-center">
-          <div className="flex gap-16 w-max snap-x invert">
-            <div className="snap-start ">
-              <img
-                src="https://internetcomputer.org/img/IC_logo_horizontal.svg"
-                className="h-6 grayscale"
-                alt="Internet Computer"
-              />
-            </div>
-            <div className="snap-start ">
-              <img
-                src="https://indonesiaonchain.com/wp-content/uploads/2024/03/Disruptives-_-blck-letter-2-1024x181.png"
-                className="h-6 grayscale"
-                alt="Disruptives"
-              />
-            </div>
-            <div className="snap-start ">
-              <img
-                src="./company/peridot.png"
-                className="h-6 grayscale"
-                alt="Peridot"
-              />
-            </div>
-            <div className="snap-start ">
-              <img
-                src="https://indonesiaonchain.com/wp-content/uploads/2024/02/Indonesia-On-Chain-for-wihte-BG-1-1024x700.png"
-                className="h-6 grayscale px-2 scale-200"
-                alt="Indonesia On Chain"
-              />
-            </div>
-            <div className="snap-start ">
-              <img
-                src="https://pbs.twimg.com/profile_images/1222627230536343558/LRFCfJqi_400x400.jpg"
-                alt="University of Zurich Blockchain Center"
-                className="h-6 grayscale px-2 scale-200"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  //       {/* Companies  */}
+  //       <div className="bg-surface py-12 pl-14 overflow-x-auto flex justify-center">
+  //         <div className="flex gap-16 w-max snap-x invert">
+  //           <div className="snap-start ">
+  //             <img
+  //               src="https://internetcomputer.org/img/IC_logo_horizontal.svg"
+  //               className="h-6 grayscale"
+  //               alt="Internet Computer"
+  //             />
+  //           </div>
+  //           <div className="snap-start ">
+  //             <img
+  //               src="https://indonesiaonchain.com/wp-content/uploads/2024/03/Disruptives-_-blck-letter-2-1024x181.png"
+  //               className="h-6 grayscale"
+  //               alt="Disruptives"
+  //             />
+  //           </div>
+  //           <div className="snap-start ">
+  //             <img
+  //               src="./company/peridot.png"
+  //               className="h-6 grayscale"
+  //               alt="Peridot"
+  //             />
+  //           </div>
+  //           <div className="snap-start ">
+  //             <img
+  //               src="https://indonesiaonchain.com/wp-content/uploads/2024/02/Indonesia-On-Chain-for-wihte-BG-1-1024x700.png"
+  //               className="h-6 grayscale px-2 scale-200"
+  //               alt="Indonesia On Chain"
+  //             />
+  //           </div>
+  //           <div className="snap-start ">
+  //             <img
+  //               src="https://pbs.twimg.com/profile_images/1222627230536343558/LRFCfJqi_400x400.jpg"
+  //               alt="University of Zurich Blockchain Center"
+  //               className="h-6 grayscale px-2 scale-200"
+  //             />
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </section>
+  //   );
+  // }
 }

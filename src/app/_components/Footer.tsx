@@ -31,9 +31,9 @@ const HIGHLIGHT_POSTS: Highlight[] = [
 
 const SOCIAL_LINKS = [
   {
-    href: "https://wintr.app/ranaufal",
-    icon: "/wintr_logo.svg",
-    alt: "Wintr profile",
+    href: "https://linktr.ee/ranaufalmuha",
+    icon: "/images/socials/linktree.png",
+    alt: "Linktree profile",
   },
   {
     href: "https://linkedin.com/in/ranaufalmuha",

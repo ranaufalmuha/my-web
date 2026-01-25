@@ -6,7 +6,7 @@ export default function AboutMeSection() {
   return (
     <div className="border-y">
       <Container className="-z-1 relative">
-        <section className="grid grid-cols-2 gap-12">
+        <section className="grid md:grid-cols-2 gap-12">
           <ContainerCard className="flex border-r bg-surface">
             <div className="w-full flex flex-col gap-12 my-auto">
               <TypoH2>
@@ -27,7 +27,7 @@ export default function AboutMeSection() {
               </div>
             </div>
           </ContainerCard>
-          <div className="w-full aspect-3/5 border-l">
+          <div className="w-full md:aspect-3/5 aspect-6/7 border-t md:border-l">
             <img
               src="/images/me/3.webp"
               alt=""
