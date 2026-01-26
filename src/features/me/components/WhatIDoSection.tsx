@@ -4,7 +4,6 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/shared/lib/gsap";
 import { Container } from "@/shared/components/providers/Container";
 import { ContainerCard } from "@/shared/components/providers/ContainerCard";
-import { TypoH2 } from "@/shared/components/ui/TypoH2";
 import { TypoBigText } from "@/shared/components/ui/TypoBigText";
 
 export const WhatIDoSection = () => {
@@ -15,15 +14,10 @@ export const WhatIDoSection = () => {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const scroller = document.querySelector(
-        "[data-lenis-wrapper]",
+        '[data-lenis-active="true"]',
       ) as HTMLElement | null;
 
-      if (
-        !sectionRef.current ||
-        !titleRef.current ||
-        !contentRef.current ||
-        !scroller
-      )
+      if (!sectionRef.current || !titleRef.current || !contentRef.current)
         return;
 
       // TITLE — TIDAK DIUBAH SAMA SEKALI
@@ -126,13 +120,13 @@ export const WhatIDoSection = () => {
   }: {
     section: HTMLElement;
     title: HTMLElement;
-    scroller: HTMLElement;
+    scroller: HTMLElement | null;
   }) {
     return gsap
       .timeline({
         scrollTrigger: {
+          ...(scroller ? { scroller } : {}),
           trigger: section,
-          scroller,
           start: "top bottom",
           end: "bottom bottom",
           scrub: true,
@@ -150,13 +144,13 @@ export const WhatIDoSection = () => {
   }: {
     section: HTMLElement;
     content: HTMLElement;
-    scroller: HTMLElement;
+    scroller: HTMLElement | null;
   }) {
     return gsap
       .timeline({
         scrollTrigger: {
+          ...(scroller ? { scroller } : {}),
           trigger: section,
-          scroller,
           start: "-=18% center",
           end: "bottom center",
           scrub: true,

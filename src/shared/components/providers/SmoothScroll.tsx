@@ -31,8 +31,6 @@ export function SmoothScrollProvider({
     if (!wrapperRef.current || !contentRef.current) return;
 
     if (isTouchDevice) {
-      ScrollTrigger.defaults({ scroller: wrapperRef.current });
-      ScrollTrigger.refresh();
       return;
     }
 
@@ -84,10 +82,13 @@ export function SmoothScrollProvider({
   return (
     <div
       ref={wrapperRef}
-      data-lenis-wrapper
-      className={`h-dvh ${
-        isTouchDevice ? "overflow-y-auto" : "overflow-hidden"
-      }`}
+      data-lenis-wrapper={!isTouchDevice ? "true" : undefined}
+      data-lenis-active={!isTouchDevice ? "true" : undefined}
+      className={
+        isTouchDevice
+          ? "min-h-dvh overflow-visible"
+          : "h-dvh overflow-hidden"
+      }
     >
       <div ref={contentRef} data-lenis-content>
         {children}
