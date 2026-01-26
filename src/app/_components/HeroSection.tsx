@@ -35,7 +35,7 @@ export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
       ) as HTMLElement | null;
 
       const scroller = document.querySelector(
-        '[data-lenis-active="true"]',
+        "[data-lenis-wrapper]",
       ) as HTMLElement | null;
 
       if (!heroWelcome || !cards.length) return;
@@ -53,8 +53,8 @@ export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          ...(scroller ? { scroller } : {}),
           trigger: containerRef.current,
+          scroller,
           start: "top top",
           end: "+=200%",
           scrub: true,

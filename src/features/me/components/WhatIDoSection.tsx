@@ -14,10 +14,15 @@ export const WhatIDoSection = () => {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const scroller = document.querySelector(
-        '[data-lenis-active="true"]',
+        "[data-lenis-wrapper]",
       ) as HTMLElement | null;
 
-      if (!sectionRef.current || !titleRef.current || !contentRef.current)
+      if (
+        !sectionRef.current ||
+        !titleRef.current ||
+        !contentRef.current ||
+        !scroller
+      )
         return;
 
       // TITLE — TIDAK DIUBAH SAMA SEKALI
@@ -120,13 +125,13 @@ export const WhatIDoSection = () => {
   }: {
     section: HTMLElement;
     title: HTMLElement;
-    scroller: HTMLElement | null;
+    scroller: HTMLElement;
   }) {
     return gsap
       .timeline({
         scrollTrigger: {
-          ...(scroller ? { scroller } : {}),
           trigger: section,
+          scroller,
           start: "top bottom",
           end: "bottom bottom",
           scrub: true,
@@ -144,13 +149,13 @@ export const WhatIDoSection = () => {
   }: {
     section: HTMLElement;
     content: HTMLElement;
-    scroller: HTMLElement | null;
+    scroller: HTMLElement;
   }) {
     return gsap
       .timeline({
         scrollTrigger: {
-          ...(scroller ? { scroller } : {}),
           trigger: section,
+          scroller,
           start: "-=18% center",
           end: "bottom center",
           scrub: true,

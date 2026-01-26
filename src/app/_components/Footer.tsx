@@ -49,9 +49,9 @@ export const Footer = () => {
   return (
     <footer className="flex flex-col border-t">
       <h2 className="sr-only">Footer</h2>
-      <div className="flex w-full">
+      <div className="flex max-lg:flex-col w-full">
         {/* Left Section */}
-        <section className="p-20 w-3/6 bg-surface text-surface-foreground relative flex flex-col gap-20 justify-between border-r">
+        <section className="p-20 lg:w-3/6 bg-surface text-surface-foreground relative flex flex-col gap-20 justify-between border-r">
           <div className="flex flex-col gap-20" id="contact">
             <img
               src="/logo-white.png"
@@ -112,10 +112,10 @@ export const Footer = () => {
           </p>
         </section>
 
-        <div className="w-1/6" />
+        <div className="lg:w-1/6" />
 
         {/* Right Section - Highlights */}
-        <section className="w-2/6 relative justify-between flex flex-col gap-20 border-l">
+        <section className="lg:w-2/6 relative justify-between flex flex-col gap-20 border-l">
           {HIGHLIGHT_POSTS.map((item, index) => (
             <Link
               key={index}

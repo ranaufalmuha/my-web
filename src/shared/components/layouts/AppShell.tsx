@@ -14,7 +14,10 @@ export function AppShell({ children }: Props) {
   const { cursorRef, handleMouseMove } = useCursorLayer();
 
   return (
-    <main className="cursor-crosshair" onMouseMove={handleMouseMove}>
+    <main
+      className="cursor-crosshair overflow-x-hidden"
+      onMouseMove={handleMouseMove}
+    >
       <Navbar />
       <div className="flex flex-col justify-between min-h-dvh relative z-2">
         {children}
