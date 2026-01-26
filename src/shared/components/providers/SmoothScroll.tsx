@@ -1,7 +1,7 @@
 "use client";
 
 import Lenis from "lenis";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
 
@@ -14,15 +14,33 @@ export function SmoothScrollProvider({
 }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState<boolean | null>(null);
 
   useEffect(() => {
+    const isTouch =
+      typeof window !== "undefined" &&
+      (window.matchMedia("(pointer: coarse)").matches ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsTouchDevice(isTouch);
+  }, []);
+
+  useEffect(() => {
+    if (isTouchDevice === null) return;
     if (!wrapperRef.current || !contentRef.current) return;
+
+    if (isTouchDevice) {
+      ScrollTrigger.defaults({ scroller: wrapperRef.current });
+      ScrollTrigger.refresh();
+      return;
+    }
 
     const lenis = new Lenis({
       wrapper: wrapperRef.current,
       content: contentRef.current,
       smoothWheel: true,
-      // smoothTouch: false,
+      syncTouch: true,
     });
 
     // 🔑 CONNECT LENIS → SCROLLTRIGGER
@@ -61,11 +79,19 @@ export function SmoothScrollProvider({
       lenis.destroy();
       ScrollTrigger.killAll();
     };
-  }, []);
+  }, [isTouchDevice]);
 
   return (
-    <div ref={wrapperRef} data-lenis-wrapper className="h-dvh overflow-hidden">
-      <div ref={contentRef}>{children}</div>
+    <div
+      ref={wrapperRef}
+      data-lenis-wrapper
+      className={`h-dvh ${
+        isTouchDevice ? "overflow-y-auto" : "overflow-hidden"
+      }`}
+    >
+      <div ref={contentRef} data-lenis-content>
+        {children}
+      </div>
     </div>
   );
 }
