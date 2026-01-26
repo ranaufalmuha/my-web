@@ -4,7 +4,6 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/shared/lib/gsap";
 import { Container } from "@/shared/components/providers/Container";
 import { ContainerCard } from "@/shared/components/providers/ContainerCard";
-import { TypoH2 } from "@/shared/components/ui/TypoH2";
 import { TypoBigText } from "@/shared/components/ui/TypoBigText";
 
 export const WhatIDoSection = () => {

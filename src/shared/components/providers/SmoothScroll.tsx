@@ -22,7 +22,8 @@ export function SmoothScrollProvider({
       wrapper: wrapperRef.current,
       content: contentRef.current,
       smoothWheel: true,
-      // smoothTouch: false,
+      // smoothTouch: isTouch,
+      syncTouch: true,
     });
 
     // 🔑 CONNECT LENIS → SCROLLTRIGGER
@@ -64,7 +65,11 @@ export function SmoothScrollProvider({
   }, []);
 
   return (
-    <div ref={wrapperRef} data-lenis-wrapper className="h-dvh overflow-hidden">
+    <div
+      ref={wrapperRef}
+      data-lenis-wrapper
+      className="h-dvh overflow-y-auto overscroll-contain"
+    >
       <div ref={contentRef}>{children}</div>
     </div>
   );
