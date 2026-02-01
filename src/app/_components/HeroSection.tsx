@@ -119,7 +119,7 @@ export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
   }, []);
 
   return (
-    <div ref={containerRef} className="h-[300dvh]">
+    <div ref={containerRef} id="hero" className="h-[300dvh]">
       <section className="h-screen overflow-hidden flex flex-col items-center justify-between relative z-5 bg-background border-b border-foreground/20">
         <div className=""></div>
         <div className="hero-welcome flex flex-col items-center gap-6 md:gap-8 lg:gap-10 z-10 px-4 duration-300 absolute h-full w-full justify-center pointer-events-none ">
@@ -137,7 +137,10 @@ export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
           {/* ========================================================
             CTA
           ======================================================== */}
-          <Button href="/#character-section" text="My Works" />
+          <div className="flex gap-6">
+            <Button href="/#works" text="My Works" />
+            <Button href="/#contact" variant="transparent" text="My Contact" />
+          </div>
         </div>
 
         {/* ========================================================

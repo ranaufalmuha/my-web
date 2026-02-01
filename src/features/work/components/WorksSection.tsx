@@ -37,7 +37,7 @@ export const WorksSection = ({ onMouseEnter, onMouseLeave }: Props) => {
     },
   ];
   return (
-    <section>
+    <section id="works">
       <Container>
         <ContainerCard className="border-b bg-surface">
           <TypoH2 className="py-14">
