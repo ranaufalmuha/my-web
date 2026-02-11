@@ -25,7 +25,7 @@ export const WorksSection = ({ onMouseEnter, onMouseLeave }: Props) => {
     },
     {
       name: <span>Arctis</span>,
-      url: "https://arctis-web.vercel.app/",
+      url: "https://arctis.ranaufalmuha.com",
       yearFrom: 2025,
       yearTo: undefined,
     },
@@ -42,7 +42,7 @@ export const WorksSection = ({ onMouseEnter, onMouseLeave }: Props) => {
         <ContainerCard className="border-b bg-surface">
           <TypoH2 className="py-14">
             My
-            <span className="font-fraunces"> Works</span>
+            <span className="font-fraunces"> Works Highlights</span>
           </TypoH2>
         </ContainerCard>
         {listWorks.map((item, index) => (

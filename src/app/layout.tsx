@@ -6,6 +6,7 @@ import "@/shared/style/globals.css";
 import { CursorProvider } from "@/shared/contexts/CursorContext";
 import { SmoothScrollProvider } from "@/shared/components/providers/SmoothScroll";
 import { AppShell } from "@/shared/components/layouts/AppShell";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
             <AppShell>{children}</AppShell>
           </SmoothScrollProvider>
         </CursorProvider>
+        <GoogleAnalytics gaId="G-JL2R2KG3W1" />
       </body>
     </html>
   );
