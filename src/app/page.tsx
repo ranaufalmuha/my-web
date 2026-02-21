@@ -19,10 +19,7 @@ export default function LandingPage() {
       {/* ========================================================
           SECTION HERO
       ======================================================== */}
-      <HeroSection
-        onMouseEnter={() => handleMouseEnter(3)}
-        onMouseLeave={handleMouseLeave}
-      />
+      <HeroSection />
 
       {/* ========================================================
           SECTION WHAT I DO?

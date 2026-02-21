@@ -1,34 +1,34 @@
 [
     {
-        "name": "blaze",
-        "image": "./images/me/1.webp"
+        "imgUrl": "/images/me/1.webp",
+        "alt": "My Photo in Cybertech Hackathon"
     },
     {
-        "name": "blaze",
-        "image": "./images/me/4.webp"
+        "imgUrl": "/images/me/4.webp",
+        "alt": "Ranaufal Muha take a photo in Switzerland"
     },
     {
-        "name": "blaze",
-        "image": "./images/me/3.webp"
+        "imgUrl": "/images/me/3.webp",
+        "alt": "Ranaufal Muha Presentation in Chain Fusion Bali"
     },
     {
-        "name": "blaze",
-        "image": "./images/me/5.webp"
+        "imgUrl": "/images/me/5.webp",
+        "alt": "Ranaufal Muha in front of CV Labs Office"
     },
     {
-        "name": "blaze",
-        "image": "./images/me/1.webp"
+        "imgUrl": "/images/me/1.webp",
+        "alt": "My Photo in Cybertech Hackathon"
     },
     {
-        "name": "blaze",
-        "image": "./images/me/6.webp"
+        "imgUrl": "/images/me/6.webp",
+        "alt": "Ranaufal Muha Photo in front of Universitat Zurich Zentrum"
     },
     {
-        "name": "blaze",
-        "image": "./images/me/4.webp"
+        "imgUrl": "/images/me/4.webp",
+        "alt": "Ranaufal Muha take a photo in Switzerland"
     },
     {
-        "name": "blaze",
-        "image": "./images/me/2.webp"
+        "imgUrl": "/images/me/2.webp",
+        "alt": "Ranaufal Muha Photo in Chain Fusion Bali"
     }
 ]

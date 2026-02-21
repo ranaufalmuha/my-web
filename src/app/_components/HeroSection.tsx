@@ -1,34 +1,28 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "@/shared/lib/gsap";
-import nftList from "@/shared/assets/gallery.json";
+import photoList from "@/shared/assets/gallery.json";
 import Button from "@/shared/components/ui/Button";
+import Image from "next/image";
+import { useGsapResponsive } from "@/shared/hooks/useGsapResponsive";
 
-interface Props {
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-}
-
-export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
+export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const sizeVariants = [
-    "w-1/10",
-    "w-1/12",
-    "w-1/8",
-    "w-1/12",
-    "w-1/9",
-    "w-1/8",
-    "w-1/10",
-    "w-1/12",
+    "w-1/10 min-w-42",
+    "w-1/12 min-w-35",
+    "w-1/8 min-w-60",
+    "w-1/12 min-w-41",
+    "w-1/9 min-w-55",
+    "w-1/8 min-w-47",
+    "w-1/10 min-w-58",
+    "w-1/12 min-w-36",
   ];
 
-  useLayoutEffect(() => {
-    const mm = gsap.matchMedia();
-
-    mm.add("(min-width: 768px)", () => {
+  useGsapResponsive({
+    desktop: () => {
       const ctx = gsap.context(() => {
         const cards = gsap.utils.toArray<HTMLDivElement>(".hero-card");
         const images = gsap.utils.toArray<HTMLImageElement>(".hero-card-img");
@@ -119,15 +113,15 @@ export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
       }, containerRef);
 
       return () => ctx.revert();
-    });
+    },
 
-    mm.add("(max-width: 767px)", () => {
+    mobile: () => {
       const images = gsap.utils.toArray<HTMLImageElement>(".hero-card-img");
 
       images.forEach((img) => {
         img.classList.remove("blur-lg");
         img.classList.remove("hover:scale-105");
-        img.style.filter = ""; // optional reset inline style
+        img.style.filter = "";
       });
 
       return () => {
@@ -135,21 +129,19 @@ export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
           img.style.filter = "";
         });
       };
-    });
-
-    return () => mm.revert();
-  }, []);
+    },
+  });
 
   return (
     <div ref={containerRef} id="hero" className="relative">
-      <section className="h-screen overflow-hidden flex flex-col items-center justify-between relative z-5 bg-background border-b border-foreground/20">
-        <div className=""></div>
-        <div className="hero-welcome flex flex-col items-center gap-6 md:gap-8 lg:gap-10 z-10 px-4 duration-300 absolute h-full w-full justify-center pointer-events-none ">
+      <section className="md:h-screen overflow-hidden flex flex-col items-center justify-between relative z-5 bg-background border-b border-foreground/20 gap-18">
+        <div className="max-md:mt-20" />
+        <div className="hero-welcome flex flex-col items-center gap-8 md:gap-10 z-10 px-4 duration-300 md:absolute h-full w-full justify-center pointer-events-none text-center">
           <div className="flex flex-col gap-4 items-center">
-            <span className="text-paragraph ">
+            <span className="text-paragraph max-md:text-sm">
               Hi 👋🏻, I{"'"}m Creative Frontend Engineer
             </span>
-            <h1 className="hero-title text-5xl lg:text-6xl xl:text-7xl text-center max-w-6xl duration-300">
+            <h1 className="hero-title text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center max-w-6xl duration-300">
               Start
               <span className="font-fraunces"> Level One</span>, <br />
               Think <span className="font-fraunces"> Late Game</span>
@@ -169,17 +161,17 @@ export default function HeroSection({ onMouseEnter, onMouseLeave }: Props) {
           GALERY
         ======================================================== */}
         <div className="hero-gallery-container  ml-auto flex gap-6 items-end justify-start w-[200vw] z-0">
-          {nftList.slice(0, 8).map((item, i) => (
+          {photoList.slice(0, 8).map((item, i) => (
             <div
               key={i}
               className={`${sizeVariants[i]} hero-card aspect-square bg-muted group`}
-              onMouseEnter={onMouseEnter}
-              onMouseLeave={onMouseLeave}
             >
-              <img
-                src={item.image}
-                alt=""
+              <Image
+                src={item.imgUrl}
+                alt={item.alt}
                 className="hero-card-img w-full h-full group-hover:blur-none duration-300 object-cover"
+                width={720}
+                height={720}
               />
             </div>
           ))}
