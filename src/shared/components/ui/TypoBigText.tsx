@@ -11,7 +11,7 @@ export const TypoBigText = ({
     <p
       {...props}
       className={
-        "xl:text-8xl lg:text-7xl md:text-6xl sm:text-5xl text-4xl " + className
+        "xl:text-7xl lg:text-6xl md:text-5xl sm:text-4xl text-3xl " + className
       }
     >
       {children}

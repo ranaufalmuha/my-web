@@ -5,11 +5,14 @@ import { gsap } from "@/shared/lib/gsap";
 import { Container } from "@/shared/components/providers/Container";
 import { ContainerCard } from "@/shared/components/providers/ContainerCard";
 import { TypoBigText } from "@/shared/components/ui/TypoBigText";
+import { TbAppsFilled, TbSpeedboat } from "react-icons/tb";
+import { GiBreakingChain } from "react-icons/gi";
+import clsx from "clsx";
+import { IconType } from "react-icons/lib";
 
 export const WhatIDoSection = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLDivElement | null>(null);
-  const contentRef = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -17,25 +20,12 @@ export const WhatIDoSection = () => {
         "[data-lenis-wrapper]",
       ) as HTMLElement | null;
 
-      if (
-        !sectionRef.current ||
-        !titleRef.current ||
-        !contentRef.current ||
-        !scroller
-      )
-        return;
+      if (!sectionRef.current || !titleRef.current || !scroller) return;
 
       // TITLE — TIDAK DIUBAH SAMA SEKALI
       animateTitle({
         section: sectionRef.current,
         title: titleRef.current,
-        scroller,
-      });
-
-      // CONTENT — TIDAK NUNGGU TITLE
-      animateContent({
-        section: sectionRef.current,
-        content: contentRef.current,
         scroller,
       });
     }, sectionRef);
@@ -46,24 +36,26 @@ export const WhatIDoSection = () => {
   return (
     <Container className="-z-1 relative">
       <section ref={sectionRef} className="h-full w-full ">
-        <div className="top-0 min-h-dvh  ">
+        <div className="top-0 min-h-dvh">
           {/* TITLE */}
           <div
             ref={titleRef}
-            className="absolute inset-x-0 top-0 flex items-center justify-center pointer-events-none z-0 h-1/3"
+            className={clsx(
+              "md:absolute md:min-h-1/4 md:inset-x-0",
+              "flex items-center justify-center pointer-events-none -z-1",
+              "max-md:py-20",
+            )}
           >
             <h2 className="lg:text-8xl md:text-7xl sm:text-6xl text-5xl text-white">
-              What I <span className="font-fraunces">do?</span>
+              What I <span className="font-fraunces-italic">do?</span>
             </h2>
           </div>
+          <div className="md:h-screen" />
 
           {/* CONTENT */}
-          <div
-            ref={contentRef}
-            className="w-full flex flex-col items-center justify-center border-b "
-          >
+          <div className="w-full flex flex-col items-center justify-center border-b bg-background">
             <ContainerCard className="border-y bg-surface">
-              <TypoBigText className="py-24 text-center text-paragraph">
+              <TypoBigText className="md:py-24 py-14 text-center text-paragraph">
                 Building
                 <span className="text-foreground"> Interactive </span>
                 and <br />
@@ -73,39 +65,34 @@ export const WhatIDoSection = () => {
             </ContainerCard>
             <div className="w-full">
               <Card
-                index={1}
                 title="Frontend Development"
-                text="I build clean, interactive, and production-ready web interfaces using modern frontend technologies. I focus on writing maintainable code, structuring components properly, and turning designs into reliable, real-world applications. My goal is to create interfaces that feel smooth, intuitive, and easy to scale."
+                text="I build interactive interfaces that feel smooth and intuitive to use. I focus on creating experiences that are reliable, scalable, and enjoyable in real-world products."
                 list={[
-                  "React / Next.js, Tailwind CSS, GSAP",
-                  "State management & UI logic",
-                  "HTML, CSS, JavaScript (ES6+), TypeScript",
-                  "API integration & async data handling",
+                  "Architecture",
+                  "Components",
+                  "Scalability",
+                  "Maintainability",
                 ]}
+                Icon={TbAppsFilled}
               />
 
               <Card
-                index={2}
-                title="Performance & UX Optimization"
-                text="I care deeply about performance, usability, and how users experience a product. I optimize interfaces to load faster, feel responsive, and work well across different devices and screen sizes. Small details, consistency, and smooth interactions are key parts of my approach."
+                title="Performance & UX"
+                text="I care about how a product feels when people use it every day. I work on making interfaces faster, clearer, and more comfortable across different devices."
                 list={[
-                  "Responsive & mobile-first UX",
-                  "SEO fundamentals (semantic HTML, metadata)",
-                  "UI consistency & usability",
-                  "Smooth interactions & micro-animations",
+                  "Performance",
+                  "Responsiveness",
+                  "Consistency",
+                  "Usability",
                 ]}
+                Icon={TbSpeedboat}
               />
 
               <Card
-                index={3}
-                title="Blockchain (Applied & Experimental)"
-                text="I explore blockchain concepts through practical frontend and system-level experiments. This includes building user interfaces that interact with smart contracts and understanding how on-chain and off-chain data work together. I treat blockchain as a space for research, prototyping, and long-term product ideas."
-                list={[
-                  "Web3 UI & wallet integration",
-                  "Smart contract interaction",
-                  "On-chain & off-chain data flow",
-                  "Research & prototyping",
-                ]}
+                title="Blockchain Exploration"
+                text="I explore how blockchain can be used in real products beyond just theory. I focus on building practical experiences that connect on-chain systems with real users."
+                list={["Web3 UX", "On-chain", "Data Flow", "Prototyping"]}
+                Icon={GiBreakingChain}
               />
             </div>
           </div>
@@ -132,77 +119,67 @@ export const WhatIDoSection = () => {
         scrollTrigger: {
           trigger: section,
           scroller,
-          start: "top bottom",
-          end: "bottom bottom",
+          start: "top 90%",
+          end: "bottom 90%",
           scrub: true,
-          pin: true,
+          // pin: true,
           anticipatePin: 1,
+          // markers: true,
         },
       })
-      .fromTo(title, { yPercent: -70 }, { yPercent: -120, ease: "none" });
-  }
-
-  function animateContent({
-    section,
-    content,
-    scroller,
-  }: {
-    section: HTMLElement;
-    content: HTMLElement;
-    scroller: HTMLElement;
-  }) {
-    return gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: section,
-          scroller,
-          start: "-=18% center",
-          end: "bottom center",
-          scrub: true,
-        },
-      })
-      .fromTo(
-        content,
-        { opacity: 0, yPercent: 120 },
-        { opacity: 1, duration: 0.01 },
-      )
-      .fromTo(content, { yPercent: 0 }, { yPercent: -30 })
-      .fromTo(content, { yPercent: -30 }, { yPercent: 0 });
+      .fromTo(title, { yPercent: -60 }, { yPercent: 200, ease: "none" });
   }
 
   function Card({
-    index,
     title,
     text,
     list,
+    Icon,
   }: {
     title: string;
     text: string;
     list: string[];
-    index: number;
+    Icon: IconType;
   }) {
     return (
       <section>
-        <ContainerCard className="border-t grid md:grid-cols-2 gap-8 justify-between aspect-2/1">
-          <h3 className="lg:text-5xl sm:text-4xl text-3xl">
-            <span className="text-paragraph font-fraunces">
-              0{index}. &nbsp;
-            </span>
-            {title}
-          </h3>
+        <div className="border-t grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 sm:gap-8 ">
+          <div className="sm:border-r sm:py-8 max-sm:col-span-2">
+            <div className="w-full bg-linear-to-b from-primary to-primary-foreground aspect-4/5 flex items-center justify-center">
+              <Icon className="w-1/2 h-1/2" />
+            </div>
+          </div>
+          {/* <div className="max-lg:hidden"></div> */}
 
-          <div className="flex flex-col justify-between w-full md:text-xl  gap-8">
-            <p className="md:text-xl text-paragraph">{text}</p>
-            <ul className="flex flex-col ">
+          <div className="lg:col-span-3 col-span-2 flex justify-center max-sm:border-b max-sm:py-8">
+            <div className="flex flex-col justify-center gap-4">
+              <h3 className="lg:text-5xl md:text-4xl text-3xl max-sm:text-4xl">
+                {title}
+              </h3>
+              <p className="max-md:text-sm max-sm:text-base text-paragraph">
+                {text}
+              </p>
+            </div>
+          </div>
+
+          <div className="max-lg:hidden"></div>
+          <div className="flex flex-col justify-center w-full gap-4 sm:border-l max-sm:border-r max-sm:py-8">
+            <span>Stacks:</span>
+            <ul className="flex flex-col items-start gap-2">
               {list.map((item, index) => (
-                <li key={index} className="py-4 border-t">
+                <li
+                  key={index}
+                  className="py-1 px-2 border text-xs font-ibm-plex-mono bg-foreground/5 uppercase"
+                >
                   {item}
                 </li>
               ))}
             </ul>
           </div>
-        </ContainerCard>
+        </div>
       </section>
     );
   }
 };
+
+// React, next, tailwind,css gsap, state management, HTML, CSS, JavaScript (ES6+), TypeScript, viem,

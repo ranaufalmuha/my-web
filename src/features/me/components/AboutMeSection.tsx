@@ -10,7 +10,7 @@ export default function AboutMeSection() {
           <ContainerCard className="flex border-r bg-surface">
             <div className="w-full flex flex-col gap-12 my-auto">
               <TypoH2>
-                About <span className="font-fraunces">Me</span>
+                About <span className="font-fraunces-italic">Me</span>
               </TypoH2>
               <div className="text-xl flex flex-col gap-4 text-paragraph">
                 <p>

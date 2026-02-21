@@ -133,7 +133,7 @@ export default function HeroSection() {
   });
 
   return (
-    <div ref={containerRef} id="hero" className="relative">
+    <div ref={containerRef} id="hero" className="relative md:h-[300dvh]">
       <section className="md:h-screen overflow-hidden flex flex-col items-center justify-between relative z-5 bg-background border-b border-foreground/20 gap-18">
         <div className="max-md:mt-20" />
         <div className="hero-welcome flex flex-col items-center gap-8 md:gap-10 z-10 px-4 duration-300 md:absolute h-full w-full justify-center pointer-events-none text-center">
@@ -143,8 +143,8 @@ export default function HeroSection() {
             </span>
             <h1 className="hero-title text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center max-w-6xl duration-300">
               Start
-              <span className="font-fraunces"> Level One</span>, <br />
-              Think <span className="font-fraunces"> Late Game</span>
+              <span className="font-fraunces-italic"> Level One</span>, <br />
+              Think <span className="font-fraunces-italic"> Late Game</span>
             </h1>
           </div>
 

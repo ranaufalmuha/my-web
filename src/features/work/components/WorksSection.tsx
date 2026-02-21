@@ -42,7 +42,7 @@ export const WorksSection = ({ onMouseEnter, onMouseLeave }: Props) => {
         <ContainerCard className="border-b bg-surface">
           <TypoH2 className="py-14">
             My
-            <span className="font-fraunces"> Works Highlights</span>
+            <span className="font-fraunces-italic"> Works Highlights</span>
           </TypoH2>
         </ContainerCard>
         {listWorks.map((item, index) => (
@@ -78,7 +78,7 @@ export const WorksSection = ({ onMouseEnter, onMouseLeave }: Props) => {
         </ContainerCard>
         <div className="border-x md:hidden lg:block"></div>
         <ContainerCard className="flex border-l justify-center items-center gap-4 text-xl">
-          <span className="font-fraunces">{yearFrom}</span>
+          <span className="font-fraunces-italic">{yearFrom}</span>
           <FontAwesomeIcon icon={faArrowRightLong} />
           <span>{yearTo ? yearTo : "Present"}</span>
         </ContainerCard>
