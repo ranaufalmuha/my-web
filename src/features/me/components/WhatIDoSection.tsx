@@ -164,7 +164,7 @@ export const WhatIDoSection = () => {
 
           <div className="max-lg:hidden"></div>
           <div className="flex flex-col justify-center w-full gap-4 sm:border-l max-sm:border-r max-sm:py-8">
-            <span>Stacks:</span>
+            <span>Focus:</span>
             <ul className="flex flex-col items-start gap-2">
               {list.map((item, index) => (
                 <li
