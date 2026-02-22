@@ -1,3 +1,5 @@
+import { useCursor } from "@/features/cursor/CursorContext";
+import { DEFAULT_SCALE, HOVER_SCALE_DEFAULT } from "@/shared/constants/scale";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -8,11 +10,15 @@ type Props = {
 };
 
 export default function Button({ href, text, variant = "color" }: Props) {
+  const { setScale } = useCursor();
+
   return (
     <Link
       href={href}
+      onMouseEnter={() => setScale(HOVER_SCALE_DEFAULT)}
+      onMouseLeave={() => setScale(DEFAULT_SCALE)}
       className={clsx(
-        "md:px-8 px-4 md:py-3 py-2 overflow-hidden group relative transition-all ease-out duration-300 cursor-pointer pointer-events-auto",
+        "md:px-8 px-4 md:py-3 py-2 overflow-hidden group relative transition-all ease-out duration-300 pointer-events-auto",
         variant == "color" ? "bg-primary" : "",
       )}
     >

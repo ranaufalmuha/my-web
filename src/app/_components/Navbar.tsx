@@ -3,7 +3,7 @@
 import { Container } from "@/shared/components/providers/Container";
 /* eslint-disable @next/next/no-img-element */
 
-import { useCursor } from "../../shared/contexts/CursorContext";
+import { useCursor } from "../../features/cursor/CursorContext";
 import Link from "next/link";
 import Image from "next/image";
 

@@ -71,6 +71,9 @@ importers:
       valtio:
         specifier: ^2.2.0
         version: 2.2.0(@types/react@19.2.7)(react@19.2.0)
+      vanilla-tilt:
+        specifier: ^1.8.1
+        version: 1.8.1
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.17
@@ -2269,6 +2272,9 @@ packages:
         optional: true
       react:
         optional: true
+
+  vanilla-tilt@1.8.1:
+    resolution: {integrity: sha512-hPB1XUsnh+SIeVSW2beb5RnuFxz4ZNgxjGD78o52F49gS4xaoLeEMh9qrQnJrnEn/vjjBI7IlxrrXmz4tGV0Kw==}
 
   webgl-constants@1.1.1:
     resolution: {integrity: sha512-LkBXKjU5r9vAW7Gcu3T5u+5cvSvh5WwINdr0C+9jpzVB41cjQAP5ePArDtk/WHYdVj0GefCgM73BA7FlIiNtdg==}
@@ -4712,6 +4718,8 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.7
       react: 19.2.0
+
+  vanilla-tilt@1.8.1: {}
 
   webgl-constants@1.1.1: {}
 

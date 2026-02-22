@@ -9,6 +9,7 @@ import { TbAppsFilled, TbSpeedboat } from "react-icons/tb";
 import { GiBreakingChain } from "react-icons/gi";
 import clsx from "clsx";
 import { IconType } from "react-icons/lib";
+import { useTilt } from "@/shared/hooks/useTilt";
 
 export const WhatIDoSection = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -141,12 +142,23 @@ export const WhatIDoSection = () => {
     list: string[];
     Icon: IconType;
   }) {
+    const tiltIconRef = useTilt({
+      max: 15,
+      reverse: true,
+      scale: 1.05,
+      "full-page-listening": true,
+    });
     return (
       <section>
         <div className="border-t grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 sm:gap-8 ">
           <div className="sm:border-r sm:py-8 max-sm:col-span-2">
-            <div className="w-full bg-linear-to-b from-primary to-primary-foreground aspect-4/5 flex items-center justify-center">
-              <Icon className="w-1/2 h-1/2" />
+            <div
+              ref={tiltIconRef}
+              className="w-full bg-linear-to-b from-primary to-primary-foreground aspect-4/5 flex items-center justify-center"
+            >
+              <div className="w-1/2 h-1/2">
+                <Icon className="w-full h-full" />
+              </div>
             </div>
           </div>
           {/* <div className="max-lg:hidden"></div> */}

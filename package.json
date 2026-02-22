@@ -29,7 +29,8 @@
     "react-icons": "^5.5.0",
     "tailwind-merge": "^3.4.0",
     "three": "^0.181.2",
-    "valtio": "^2.2.0"
+    "valtio": "^2.2.0",
+    "vanilla-tilt": "^1.8.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",

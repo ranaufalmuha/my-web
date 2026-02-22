@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { LinkedinIcon, GithubIcon } from "@/shared/assets/Icons";
-import { useCursor } from "@/shared/contexts/CursorContext";
+import { useCursor } from "@/features/cursor/CursorContext";
+import { DEFAULT_SCALE, HOVER_SCALE_DEFAULT } from "@/shared/constants/scale";
 
 interface Highlight {
   img_url: string | null;
@@ -44,7 +45,7 @@ const SOCIAL_LINKS = [
 ] as const;
 
 export const Footer = () => {
-  const { handleMouseEnter, handleMouseLeave } = useCursor();
+  const { setScale } = useCursor();
 
   return (
     <footer id="contact" className="flex flex-col border-t overflow-hidden">
@@ -61,8 +62,8 @@ export const Footer = () => {
 
             <p
               className="text-4xl max-w-[400px]"
-              onMouseEnter={() => handleMouseEnter(2)}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={() => setScale(HOVER_SCALE_DEFAULT)}
+              onMouseLeave={() => setScale(DEFAULT_SCALE)}
             >
               Follow my social media to stay in touch with me 🤝
             </p>
@@ -70,8 +71,8 @@ export const Footer = () => {
             <Link
               href="https://mail.google.com/mail/?view=cm&fs=1&to=ifal.muha@gmail.com&su=Hi,%20Im%20here%20from%20your%20Website"
               className="focus:scale-105 duration-300 hover:scale-110 border-gray-400 max-w-[400px] border-b py-7 flex items-center justify-between"
-              onMouseEnter={() => handleMouseEnter(1.5)}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={() => setScale(HOVER_SCALE_DEFAULT)}
+              onMouseLeave={() => setScale(DEFAULT_SCALE)}
             >
               <span className="text-2xl">ifal.muha@gmail.com</span>
               <span className="text-2xl">→</span>
@@ -86,8 +87,8 @@ export const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mix-blend-difference"
-                  onMouseEnter={() => handleMouseEnter(1.5)}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={() => setScale(HOVER_SCALE_DEFAULT)}
+                  onMouseLeave={() => setScale(DEFAULT_SCALE)}
                   aria-label={link.alt}
                 >
                   {link.icon === "linkedin" ? (
@@ -122,8 +123,8 @@ export const Footer = () => {
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              onMouseEnter={() => handleMouseEnter(1.5)}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={() => setScale(HOVER_SCALE_DEFAULT)}
+              onMouseLeave={() => setScale(DEFAULT_SCALE)}
               className="lg:p-20 md:p-18 p-8 bg-surface text-surface-foreground aspect-square border-y hover:bg-white hover:text-black hover:rotate-6 duration-300 flex flex-col justify-between gap-10 relative"
             >
               {item.img_url && (

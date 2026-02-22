@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { GithubIcon, LinkedinIcon } from "../assets/Icons";
-import { useCursor } from "../contexts/CursorContext";
+import { useCursor } from "../../features/cursor/CursorContext";
 
 export const MobileUI = () => {
   const { handleMouseEnter, handleMouseLeave } = useCursor();

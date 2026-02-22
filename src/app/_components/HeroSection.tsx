@@ -6,6 +6,8 @@ import photoList from "@/shared/assets/gallery.json";
 import Button from "@/shared/components/ui/Button";
 import Image from "next/image";
 import { useGsapResponsive } from "@/shared/hooks/useGsapResponsive";
+import { useTilt } from "@/shared/hooks/useTilt";
+import { HeroCard } from "@/shared/components/HeroCard";
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -151,7 +153,7 @@ export default function HeroSection() {
           {/* ========================================================
             CTA
           ======================================================== */}
-          <div className="flex gap-6">
+          <div className="flex gap-6 ">
             <Button href="/#works" text="My Works" />
             <Button href="/#contact" variant="transparent" text="My Contact" />
           </div>
@@ -162,19 +164,34 @@ export default function HeroSection() {
         ======================================================== */}
         <div className="hero-gallery-container  ml-auto flex gap-6 items-end justify-start w-[200vw] z-0">
           {photoList.slice(0, 8).map((item, i) => (
-            <div
-              key={i}
-              className={`${sizeVariants[i]} hero-card aspect-square bg-muted group`}
-            >
-              <Image
-                src={item.imgUrl}
-                alt={item.alt}
-                className="hero-card-img w-full h-full group-hover:blur-none duration-300 object-cover"
-                width={720}
-                height={720}
-              />
+            <div key={i} className={`${sizeVariants[i]} hero-card`}>
+              <HeroCard imgUrl={item.imgUrl} alt={item.alt} />
             </div>
           ))}
+
+          {/* {photoList.slice(0, 8).map((item, i) => {
+              const imgRef = useTilt({
+        max: 15,
+        reverse: true,
+        scale: 1.05,
+      });
+
+            return (
+              <div
+                key={i}
+                ref={imgRef}
+                className={`${sizeVariants[i]} hero-card aspect-square bg-muted group`}
+              >
+                <Image
+                  src={item.imgUrl}
+                  alt={item.alt}
+                  className="hero-card-img w-full h-full group-hover:blur-none duration-300 object-cover"
+                  width={720}
+                  height={720}
+                />
+              </div>
+            );
+          })} */}
         </div>
       </section>
     </div>

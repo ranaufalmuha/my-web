@@ -4,13 +4,12 @@ import { ContainerCard } from "@/shared/components/providers/ContainerCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { TypoH2 } from "@/shared/components/ui/TypoH2";
+import { useCursor } from "@/features/cursor/CursorContext";
+import { DEFAULT_SCALE, HOVER_SCALE_DEFAULT } from "@/shared/constants/scale";
 
-interface Props {
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-}
+export const WorksSection = () => {
+  const { setScale } = useCursor();
 
-export const WorksSection = ({ onMouseEnter, onMouseLeave }: Props) => {
   const listWorks = [
     {
       name: (
@@ -50,8 +49,8 @@ export const WorksSection = ({ onMouseEnter, onMouseLeave }: Props) => {
             key={index}
             href={item.url}
             target="_blank"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
+            onMouseEnter={() => setScale(HOVER_SCALE_DEFAULT)}
+            onMouseLeave={() => setScale(DEFAULT_SCALE)}
           >
             <WorkCard yearFrom={item.yearFrom} yearTo={item.yearTo}>
               {item.name}
