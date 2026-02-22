@@ -4,9 +4,7 @@ import { useRef } from "react";
 import { gsap } from "@/shared/lib/gsap";
 import photoList from "@/shared/assets/gallery.json";
 import Button from "@/shared/components/ui/Button";
-import Image from "next/image";
 import { useGsapResponsive } from "@/shared/hooks/useGsapResponsive";
-import { useTilt } from "@/shared/hooks/useTilt";
 import { HeroCard } from "@/shared/components/HeroCard";
 
 export default function HeroSection() {

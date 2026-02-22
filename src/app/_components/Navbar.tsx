@@ -1,14 +1,13 @@
 "use client";
 
 import { Container } from "@/shared/components/providers/Container";
-/* eslint-disable @next/next/no-img-element */
-
 import { useCursor } from "../../features/cursor/CursorContext";
 import Link from "next/link";
 import Image from "next/image";
+import { DEFAULT_SCALE, HOVER_SCALE_DEFAULT } from "@/shared/constants/scale";
 
 export const Navbar = () => {
-  const { handleMouseEnter, handleMouseLeave } = useCursor();
+  const { setScale } = useCursor();
   return (
     <nav className="fixed w-full bg-surface z-20 border-b">
       <Container className="p-4 flex justify-center items-center">
@@ -19,8 +18,8 @@ export const Navbar = () => {
             draggable={false}
             fill
             className="w-8 h-8 object-contain pointer-events-auto"
-            onMouseEnter={() => handleMouseEnter(2)}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => setScale(HOVER_SCALE_DEFAULT)}
+            onMouseLeave={() => setScale(DEFAULT_SCALE)}
           />
         </Link>
       </Container>
