@@ -1,15 +1,14 @@
 "use client";
 import { cn } from "@/shared/lib/utils";
-import { Container } from "@/shared/components/providers/Container";
 import { ContainerCard } from "@/shared/components/providers/ContainerCard";
 import { TypoH2 } from "@/shared/components/ui/TypoH2";
-import { useGsapResponsive } from "@/shared/hooks/useGsapResponsive";
 import { gsap, ScrollTrigger } from "@/shared/lib/gsap";
 import {
     forwardRef,
     useCallback,
     useEffect,
     useImperativeHandle,
+    useLayoutEffect,
     useMemo,
     useRef,
     useState,
@@ -466,49 +465,29 @@ export const MyProjectsSection = () => {
     const carouselRef = useRef<MyProjectsHandle>(null);
     const countRef = useRef<HTMLSpanElement>(null);
 
-    useGsapResponsive({
-        desktop: () => {
-            const ctx = gsap.context(() => {
-                const scroller = document.querySelector(
-                    "[data-lenis-wrapper]",
-                ) as HTMLElement | null;
-                ScrollTrigger.create({
-                    trigger: wrapRef.current,
-                    scroller: scroller ?? undefined,
-                    start: "top top",
-                    end: "+=250%",
-                    pin: true,
-                    anticipatePin: 1,
-                    invalidateOnRefresh: true,
-                    onUpdate: (self) => {
-                        carouselRef.current?.setProgress(self.progress);
-                    },
-                });
-            }, wrapRef);
-            return () => ctx.revert();
-        },
-        mobile: () => {
-            const ctx = gsap.context(() => {
-                const scroller = document.querySelector(
-                    "[data-lenis-wrapper]",
-                ) as HTMLElement | null;
-                ScrollTrigger.create({
-                    trigger: wrapRef.current,
-                    scroller: scroller ?? undefined,
-                    start: "top bottom",
-                    end: "bottom top",
-                    invalidateOnRefresh: true,
-                    onUpdate: (self) => {
-                        carouselRef.current?.setProgress(self.progress);
-                    },
-                });
-            }, wrapRef);
-            return () => ctx.revert();
-        },
-    });
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            const scroller = document.querySelector(
+                "[data-lenis-wrapper]",
+            ) as HTMLElement | null;
+            ScrollTrigger.create({
+                trigger: wrapRef.current,
+                scroller: scroller ?? undefined,
+                start: "top top",
+                end: "+=250%",
+                pin: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+                onUpdate: (self) => {
+                    carouselRef.current?.setProgress(self.progress);
+                },
+            });
+        }, wrapRef);
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <div ref={wrapRef} className="relative overflow-hidden md:h-[300dvh]">
+        <div ref={wrapRef} className="relative overflow-hidden h-[300dvh]">
             <section
                 id="my-projects"
                 className="relative bg-surface flex h-dvh w-full flex-col overflow-hidden md:h-screen"
