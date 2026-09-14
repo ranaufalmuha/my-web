@@ -48,7 +48,7 @@ export const Footer = () => {
   const { setScale } = useCursor();
 
   return (
-    <footer id="contact" className="flex flex-col border-t overflow-hidden">
+    <footer id="contact" className="flex bg-background z-10 flex-col border-t overflow-hidden">
       <h2 className="sr-only">Footer</h2>
       <div className="flex max-lg:flex-col w-full">
         {/* Left Section */}

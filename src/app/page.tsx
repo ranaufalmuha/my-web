@@ -4,6 +4,7 @@ import HeroSection from "./_components/HeroSection";
 import { WhatIDoSection } from "@/features/me/components/WhatIDoSection";
 import AboutMeSection from "@/features/me/components/AboutMeSection";
 import { WorksSection } from "@/features/work/components/WorksSection";
+import { MyProjectsSection } from "@/features/work/components/MyProjectsSection";
 
 // ========================================================
 // MAIN PAGE
@@ -20,6 +21,11 @@ export default function LandingPage() {
       <HeroSection />
 
       {/* ========================================================
+          SECTION ABOUT ME
+      ======================================================== */}
+      <AboutMeSection />
+
+      {/* ========================================================
           SECTION WHAT I DO?
       ======================================================== */}
       <WhatIDoSection />
@@ -30,9 +36,10 @@ export default function LandingPage() {
       <WorksSection />
 
       {/* ========================================================
-          SECTION ABOUT ME
+          SECTION MY PROJECTS
       ======================================================== */}
-      <AboutMeSection />
+      <MyProjectsSection />
+
     </div>
   );
 }

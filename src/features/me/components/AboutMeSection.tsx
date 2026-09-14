@@ -5,7 +5,7 @@ import { TypoH2 } from "@/shared/components/ui/TypoH2";
 export default function AboutMeSection() {
   return (
     <div className="border-y">
-      <Container className="-z-1 relative">
+      <Container className="bg-background relative">
         <section className="grid md:grid-cols-2 gap-12">
           <ContainerCard className="flex border-r bg-surface">
             <div className="w-full flex flex-col gap-12 my-auto">

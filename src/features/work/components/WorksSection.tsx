@@ -13,6 +13,14 @@ export const WorksSection = () => {
   const listWorks = [
     {
       name: (
+        <span>Antigane</span>
+      ),
+      url: "https://antigane.com",
+      yearFrom: 2026,
+      yearTo: undefined,
+    },
+    {
+      name: (
         <span>
           <span className="font-bold">Peridot</span>
           Vault

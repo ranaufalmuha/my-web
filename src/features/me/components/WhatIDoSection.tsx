@@ -37,7 +37,7 @@ export const WhatIDoSection = () => {
   return (
     <Container className="-z-1 relative">
       <section ref={sectionRef} className="h-full w-full ">
-        <div className="top-0 min-h-dvh">
+        <div className="top-0 min-h-dvh flex flex-col">
           {/* TITLE */}
           <div
             ref={titleRef}
