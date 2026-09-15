@@ -23,11 +23,13 @@ import {
 export interface MyProjectsImage {
     src: string;
     alt?: string;
+    href?: string;
 }
 export interface MyProjectsProps {
     images?: (string | MyProjectsImage)[];
     infinite?: boolean;
     itemWidth?: number;
+    widthFraction?: number;
     aspectRatio?: number;
     gap?: number;
     borderRadius?: number;
@@ -95,6 +97,7 @@ export const MyProjects = forwardRef<MyProjectsHandle, MyProjectsProps>(
             images = DEFAULT_IMAGES,
             infinite = true,
             itemWidth = 300,
+            widthFraction,
             aspectRatio = 4 / 5,
             gap = -112,
             borderRadius = 7,
@@ -134,6 +137,7 @@ export const MyProjects = forwardRef<MyProjectsHandle, MyProjectsProps>(
         const visible = useRef(true);
         const dragging = useRef<Drag | null>(null);
         const flick = useRef(0);
+        const suppressClick = useRef(false);
         const lastIndex = useRef(-1);
         const indexChange = useRef(onIndexChange);
         indexChange.current = onIndexChange;
@@ -144,7 +148,17 @@ export const MyProjects = forwardRef<MyProjectsHandle, MyProjectsProps>(
             () => false,
         );
         const list = useMemo(() => images.map(normalise), [images]);
-        const tileWidth = Math.max(40, Math.min(itemWidth, box.width - 32));
+        const tileWidth =
+            widthFraction === undefined
+                ? Math.max(40, Math.min(itemWidth, box.width - 32))
+                : Math.max(
+                      40,
+                      Math.min(
+                          Math.max(300, box.width * widthFraction),
+                          box.width - 32,
+                          box.height * 0.9 * Math.max(0.1, aspectRatio),
+                      ),
+                  );
         const tileHeight = tileWidth / Math.max(0.1, aspectRatio);
         const stride = Math.max(8, tileHeight + gap);
         const ring = useMemo(() => {
@@ -332,6 +346,7 @@ export const MyProjects = forwardRef<MyProjectsHandle, MyProjectsProps>(
         }, [box.height, wheelSpeed, settle, infinite, wake, controlled]);
         const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
             if (controlled || event.button !== 0) return;
+            suppressClick.current = false;
             dragging.current = { y: event.clientY, moved: 0, at: performance.now() };
             flick.current = 0;
             event.currentTarget.setPointerCapture(event.pointerId);
@@ -352,6 +367,7 @@ export const MyProjects = forwardRef<MyProjectsHandle, MyProjectsProps>(
         };
         const onPointerUp = (event: PointerEvent<HTMLDivElement>) => {
             if (!dragging.current) return;
+            if (dragging.current.moved > 10) suppressClick.current = true;
             dragging.current = null;
             if (event.currentTarget.hasPointerCapture(event.pointerId)) {
                 event.currentTarget.releasePointerCapture(event.pointerId);
@@ -404,39 +420,65 @@ export const MyProjects = forwardRef<MyProjectsHandle, MyProjectsProps>(
                     wake();
                 }}
                 onKeyDown={onKeyDown}
+                onClickCapture={(event) => {
+                    if (suppressClick.current) {
+                        suppressClick.current = false;
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                }}
             >
-                {ring.map(({ image, index }, k) => (
-                    <div
-                        key={k}
-                        ref={(node) => {
-                            const tile = node?.firstElementChild as HTMLDivElement | null;
-                            if (node && tile) slots.current[k] = { wrap: node, tile };
-                            else delete slots.current[k];
-                        }}
-                        className="invisible absolute top-0"
-                        style={wrapStyle}
-                        aria-hidden={k >= list.length}
-                    >
+                {ring.map(({ image, index }, k) => {
+                    const img = (
+                        <img
+                            src={image.src}
+                            alt={image.alt ?? `Gallery image ${index + 1}`}
+                            draggable={false}
+                            loading="lazy"
+                            className={cn(
+                                "h-full w-full object-cover transition-[filter] duration-500",
+                                grayscale > 0 && "grayscale group-hover:grayscale-0",
+                            )}
+                        />
+                    );
+                    return (
                         <div
-                            className="w-full overflow-hidden bg-neutral-800 will-change-[transform,filter] [transform-style:preserve-3d]"
-                            style={{ height: tileHeight, borderRadius }}
+                            key={k}
+                            ref={(node) => {
+                                const tile =
+                                    node?.firstElementChild as HTMLDivElement | null;
+                                if (node && tile)
+                                    slots.current[k] = { wrap: node, tile };
+                                else delete slots.current[k];
+                            }}
+                            className="invisible absolute top-0"
+                            style={wrapStyle}
+                            aria-hidden={k >= list.length}
                         >
-                            <img
-                                src={image.src}
-                                alt={image.alt ?? `Gallery image ${index + 1}`}
-                                draggable={false}
-                                loading="lazy"
-                                style={{
-                                    filter:
-                                        grayscale > 0
-                                            ? `grayscale(${clamp(grayscale, 0, 1)})`
-                                            : undefined,
-                                }}
-                                className="h-full w-full object-cover"
-                            />
+                            <div
+                                className="group w-full overflow-hidden bg-neutral-800 will-change-[transform,filter] [transform-style:preserve-3d]"
+                                style={{ height: tileHeight, borderRadius }}
+                            >
+                                {image.href ? (
+                                    <a
+                                        href={image.href}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        draggable={false}
+                                        aria-label={
+                                            image.alt ?? `Open project ${index + 1}`
+                                        }
+                                        className="block h-full w-full"
+                                    >
+                                        {img}
+                                    </a>
+                                ) : (
+                                    img
+                                )}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
                 {vignette ? (
                     <div
                         aria-hidden
@@ -456,7 +498,35 @@ export const MyProjects = forwardRef<MyProjectsHandle, MyProjectsProps>(
     });
 export default MyProjects;
 
-const PROJECT_COUNT = DEFAULT_IMAGES.length;
+const PROJECTS: MyProjectsImage[] = [
+    {
+        src: "/projects/arctis.png",
+        alt: "Arctis project",
+        href: "https://arctis.ranaufalmuha.com",
+    },
+    {
+        src: "/projects/peridotvault.png",
+        alt: "PeridotVault project",
+        href: "https://peridotvault.com",
+    },
+    {
+        src: "/projects/procura.png",
+        alt: "Procura Project",
+        href: "https://eregx-kyaaa-aaaap-an3aa-cai.icp0.io",
+    },
+    {
+        src: "/projects/warungagent.png",
+        alt: "Warung Agent project",
+        href: "https://warungagent.fun",
+    },
+    {
+        src: "/projects/wiatour.png",
+        alt: "Wiatour project",
+        href: "https://wiatour.com",
+    },
+];
+
+const PROJECT_COUNT = PROJECTS.length;
 
 const formatCount = (value: number) => String(value).padStart(2, "0");
 
@@ -505,8 +575,13 @@ export const MyProjectsSection = () => {
                 <div className="h-full w-full">
                     <MyProjects
                         ref={carouselRef}
+                        images={PROJECTS}
                         infinite={false}
                         controlled
+                        widthFraction={0.5}
+                        aspectRatio={16 / 9}
+                        gap={-80}
+                        borderRadius={0}
                         onIndexChange={(index) => {
                             if (countRef.current) {
                                 countRef.current.textContent = `${formatCount(index + 1)} / ${formatCount(PROJECT_COUNT)}`;
