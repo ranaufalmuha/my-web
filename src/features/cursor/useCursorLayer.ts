@@ -11,46 +11,46 @@ export function useCursorLayer() {
     const position = useRef({ x: 0, y: 0 });
     const currentScale = useRef(1);
     const visible = useRef(false);
+    const inFrame = useRef(false);
 
     useEffect(() => {
         const el = cursorRef.current;
         if (!el) return;
 
-        // 👉 mouse move
+        // 👉 mouse move (selalu update posisi dulu, baru tampil → tanpa lompatan)
         const move = (e: MouseEvent) => {
             position.current.x = e.clientX;
             position.current.y = e.clientY;
 
-            visible.current = true;
-            el.style.opacity = "1";
+            if (!inFrame.current) {
+                visible.current = true;
+                el.style.opacity = "1";
+            }
         };
 
-        // 👉 keluar window
-        const leave = () => {
-            visible.current = false;
-            el.style.opacity = "0";
-        };
-
-        // 👉 masuk lagi
-        const enter = () => {
-            visible.current = true;
-            el.style.opacity = "1";
-        };
-
-        // 👉 sembunyi di atas iframe (event mouse tidak menembus iframe cross-origin)
-        const overFrame = (e: MouseEvent) => {
+        // 👉 masuk ke iframe (event mouse tidak menembus iframe cross-origin)
+        const over = (e: MouseEvent) => {
             const target = e.target as HTMLElement | null;
             if (target?.closest?.("iframe")) {
+                inFrame.current = true;
                 visible.current = false;
                 el.style.opacity = "0";
             }
         };
-        const outFrame = (e: MouseEvent) => {
+
+        const out = (e: MouseEvent) => {
             const target = e.target as HTMLElement | null;
             const related = e.relatedTarget as HTMLElement | null;
-            if (target?.closest?.("iframe") && !related?.closest?.("iframe")) {
-                visible.current = true;
-                el.style.opacity = "1";
+            if (!related) {
+                // pointer keluar window → sembunyi, jangan stuck di posisi terakhir
+                inFrame.current = false;
+                visible.current = false;
+                el.style.opacity = "0";
+                return;
+            }
+            if (target?.closest?.("iframe") && !related.closest?.("iframe")) {
+                // keluar iframe → tetap sembunyi sampai mousemove berikutnya
+                inFrame.current = false;
             }
         };
 
@@ -71,19 +71,15 @@ export function useCursorLayer() {
         };
 
         window.addEventListener("mousemove", move, { passive: true });
-        window.addEventListener("mouseleave", leave);
-        window.addEventListener("mouseenter", enter);
-        window.addEventListener("mouseover", overFrame);
-        window.addEventListener("mouseout", outFrame);
+        document.addEventListener("mouseover", over);
+        document.addEventListener("mouseout", out);
 
         requestAnimationFrame(loop);
 
         return () => {
             window.removeEventListener("mousemove", move);
-            window.removeEventListener("mouseleave", leave);
-            window.removeEventListener("mouseenter", enter);
-            window.removeEventListener("mouseover", overFrame);
-            window.removeEventListener("mouseout", outFrame);
+            document.removeEventListener("mouseover", over);
+            document.removeEventListener("mouseout", out);
         };
     }, [scale]);
 

@@ -134,7 +134,7 @@ export default function HeroSection() {
 
   return (
     <div ref={containerRef} id="hero" className="relative md:h-[300dvh]">
-      <section className="md:h-screen overflow-hidden flex flex-col items-center justify-between relative z-5 bg-background border-b border-foreground/20 gap-18">
+      <section id="hero-screen" className="md:h-screen overflow-hidden flex flex-col items-center justify-between relative z-5 bg-background border-b border-foreground/20 gap-18">
         <div className="max-md:mt-20" />
         <div className="hero-welcome flex flex-col items-center gap-8 md:gap-10 z-10 px-4 duration-300 md:absolute h-full w-full justify-center pointer-events-none text-center">
           <div className="flex flex-col gap-4 items-center">
@@ -152,8 +152,8 @@ export default function HeroSection() {
             CTA
           ======================================================== */}
           <div className="flex gap-6 ">
-            <Button href="/#works" text="My Experiences" />
-            <Button href="/#booking" variant="transparent" text="Book a Call" />
+            <Button href="/#booking" text="Book a Call" />
+            <Button href="/#works" variant="transparent" text="My Experiences" />
           </div>
         </div>
 

@@ -13,7 +13,7 @@ export const BookingSection = () => {
 
   return (
     <section id="booking" className="bg-surface border-y border-white/10">
-      <div className="relative h-[700px] w-full bg-surface">
+      <div className="relative h-[850px] w-full bg-surface">
         <div className="absolute inset-0 grid place-items-center">
           <p className="animate-pulse font-ibm-plex-mono text-sm tracking-widest text-paragraph">
             LOADING CALENDAR...
