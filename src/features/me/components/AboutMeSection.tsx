@@ -14,7 +14,7 @@ export default function AboutMeSection() {
               </TypoH2>
               <div className="text-xl flex flex-col gap-4 text-paragraph">
                 <p>
-                  I{"'"}m a <b>Creative Frontend & Web3 Engineer</b>. I enjoy
+                  I{"'"}m a <b>Software Engineer</b>. I enjoy
                   building things where design, code, and decentralized systems
                   meet. Most of my work revolves around interactive frontend
                   experiences, smart contracts, and turning Web3 ideas into

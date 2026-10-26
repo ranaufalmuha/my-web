@@ -6,8 +6,10 @@
   --color-border: var(--color-border);
 }
 
-* {
-  border-color: var(--color-border);
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
 }
 
 .border-gradient-to-l {

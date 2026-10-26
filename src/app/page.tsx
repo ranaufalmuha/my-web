@@ -5,6 +5,8 @@ import { WhatIDoSection } from "@/features/me/components/WhatIDoSection";
 import AboutMeSection from "@/features/me/components/AboutMeSection";
 import { WorksSection } from "@/features/work/components/WorksSection";
 import { MyProjectsSection } from "@/features/work/components/MyProjectsSection";
+import { PricingSection } from "@/features/work/components/PricingSection";
+import { BookingSection } from "@/features/work/components/BookingSection";
 
 // ========================================================
 // MAIN PAGE
@@ -39,6 +41,16 @@ export default function LandingPage() {
           SECTION MY PROJECTS
       ======================================================== */}
       <MyProjectsSection />
+
+      {/* ========================================================
+          SECTION PRICING
+      ======================================================== */}
+      <PricingSection />
+
+      {/* ========================================================
+          SECTION BOOKING
+      ======================================================== */}
+      <BookingSection />
 
     </div>
   );

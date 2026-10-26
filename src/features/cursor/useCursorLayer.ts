@@ -37,6 +37,23 @@ export function useCursorLayer() {
             el.style.opacity = "1";
         };
 
+        // 👉 sembunyi di atas iframe (event mouse tidak menembus iframe cross-origin)
+        const overFrame = (e: MouseEvent) => {
+            const target = e.target as HTMLElement | null;
+            if (target?.closest?.("iframe")) {
+                visible.current = false;
+                el.style.opacity = "0";
+            }
+        };
+        const outFrame = (e: MouseEvent) => {
+            const target = e.target as HTMLElement | null;
+            const related = e.relatedTarget as HTMLElement | null;
+            if (target?.closest?.("iframe") && !related?.closest?.("iframe")) {
+                visible.current = true;
+                el.style.opacity = "1";
+            }
+        };
+
         const loop = () => {
             currentScale.current += (scale - currentScale.current) * DEFAULT_SCALE;
 
@@ -56,6 +73,8 @@ export function useCursorLayer() {
         window.addEventListener("mousemove", move, { passive: true });
         window.addEventListener("mouseleave", leave);
         window.addEventListener("mouseenter", enter);
+        window.addEventListener("mouseover", overFrame);
+        window.addEventListener("mouseout", outFrame);
 
         requestAnimationFrame(loop);
 
@@ -63,6 +82,8 @@ export function useCursorLayer() {
             window.removeEventListener("mousemove", move);
             window.removeEventListener("mouseleave", leave);
             window.removeEventListener("mouseenter", enter);
+            window.removeEventListener("mouseover", overFrame);
+            window.removeEventListener("mouseout", outFrame);
         };
     }, [scale]);
 

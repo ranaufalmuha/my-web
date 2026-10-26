@@ -139,7 +139,7 @@ export default function HeroSection() {
         <div className="hero-welcome flex flex-col items-center gap-8 md:gap-10 z-10 px-4 duration-300 md:absolute h-full w-full justify-center pointer-events-none text-center">
           <div className="flex flex-col gap-4 items-center">
             <span className="text-paragraph max-md:text-sm">
-              Hi 👋🏻, I{"'"}m Creative Frontend Engineer
+              Hi 👋🏻, I{"'"}m Software Engineer
             </span>
             <h1 className="hero-title text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center max-w-6xl duration-300">
               Start
@@ -152,8 +152,8 @@ export default function HeroSection() {
             CTA
           ======================================================== */}
           <div className="flex gap-6 ">
-            <Button href="/#works" text="My Works" />
-            <Button href="/#contact" variant="transparent" text="My Contact" />
+            <Button href="/#works" text="My Experiences" />
+            <Button href="/#booking" variant="transparent" text="Book a Call" />
           </div>
         </div>
 

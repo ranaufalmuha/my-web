@@ -66,7 +66,7 @@ export const WhatIDoSection = () => {
             </ContainerCard>
             <div className="w-full">
               <Card
-                title="Frontend Development"
+                title="Software Development"
                 text="I build interactive interfaces that feel smooth and intuitive to use. I focus on creating experiences that are reliable, scalable, and enjoyable in real-world products."
                 list={[
                   "Architecture",
