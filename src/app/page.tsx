@@ -1,12 +1,12 @@
 "use client";
 
-import HeroSection from "./_components/HeroSection";
-import { WhatIDoSection } from "@/features/me/components/WhatIDoSection";
-import AboutMeSection from "@/features/me/components/AboutMeSection";
-import { WorksSection } from "@/features/work/components/WorksSection";
-import { MyProjectsSection } from "@/features/work/components/MyProjectsSection";
-import { PricingSection } from "@/features/work/components/PricingSection";
-import { BookingSection } from "@/features/work/components/BookingSection";
+import HeroSection from "@/feat/home/components/HeroSection";
+import { WhatIDoSection } from "@/feat/me/components/WhatIDoSection";
+import AboutMeSection from "@/feat/me/components/AboutMeSection";
+import { WorksSection } from "@/feat/work/components/WorksSection";
+import { MyProjectsSection } from "@/feat/work/components/MyProjectsSection";
+import { PricingSection } from "@/feat/work/components/PricingSection";
+import { BookingSection } from "@/feat/work/components/BookingSection";
 
 // ========================================================
 // MAIN PAGE

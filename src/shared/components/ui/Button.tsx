@@ -1,4 +1,4 @@
-import { useCursor } from "@/features/cursor/CursorContext";
+import { useCursor } from "@/shared/components/cursor/CursorContext";
 import { DEFAULT_SCALE, HOVER_SCALE_DEFAULT } from "@/shared/constants/scale";
 import clsx from "clsx";
 import Link from "next/link";

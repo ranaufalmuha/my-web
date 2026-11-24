@@ -1,10 +1,9 @@
 "use client";
 
-import { Navbar } from "@/app/_components/Navbar";
-import { Footer } from "@/app/_components/Footer";
-import { useCursorLayer } from "@/features/cursor/useCursorLayer";
-import { CursorLayer } from "@/features/cursor/CursorLayer";
-// import { BackgroundRippleEffect } from "../ui/BackgroundRippleEffect";
+import { Navbar } from "@/shared/components/layouts/Navbar";
+import { Footer } from "@/shared/components/layouts/Footer";
+import { useCursorLayer } from "@/shared/components/cursor/useCursorLayer";
+import { CursorLayer } from "@/shared/components/cursor/CursorLayer";
 
 interface Props {
   children: React.ReactNode;

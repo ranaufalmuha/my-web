@@ -71,3 +71,27 @@ html {
     opacity: 0.4;
   }
 }
+
+@theme inline {
+  --animate-portrait-in: portrait-in 900ms cubic-bezier(0.22, 1, 0.36, 1)
+    120ms both;
+}
+
+/* Animates `transform`, not `translate`: Tailwind v4's -translate-x-1/2 owns
+   the `translate` property, so touching it would drop the horizontal centring. */
+@keyframes portrait-in {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-portrait-in {
+    animation: none;
+  }
+}
