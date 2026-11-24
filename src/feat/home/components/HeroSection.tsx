@@ -63,6 +63,7 @@ export default function HeroSection() {
             size: 0.62,
             accentFont: '"Fraunces-Italic"',
           }}
+          wallAction={{ label: "Book a Call", href: "/#booking", size: 0.18, x: 0.9 }}
         />
 
         <div

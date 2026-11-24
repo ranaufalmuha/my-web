@@ -37,6 +37,22 @@ export interface ConcaveCarouselWallText {
   accentFont?: string;
 }
 
+export interface ConcaveCarouselWallAction {
+  /** Text painted on the pill. */
+  label: string;
+  /** Where the pill links to. */
+  href: string;
+  /** Pill height in wall units (panel height = 1). Default 0.16 */
+  size?: number;
+  /** Centre of the pill along the wall, in card widths.
+   * Default: right-aligned to the cards. */
+  x?: number;
+  /** Fill colour. Default: the site's --color-primary. */
+  color?: string;
+  /** CSS font-family for the label; defaults to the page's body font. */
+  font?: string;
+}
+
 export type ConcaveCarouselAutoplay = "drift" | "step" | "off";
 
 export interface ConcaveCarouselProps {
@@ -67,6 +83,7 @@ export interface ConcaveCarouselProps {
   paused?: boolean;
   dpr?: number;
   wallText?: ConcaveCarouselWallText;
+  wallAction?: ConcaveCarouselWallAction;
   ariaLabel?: string;
   onIndexChange?: (index: number) => void;
   onSelect?: (item: ConcaveCarouselItem, index: number) => void;
@@ -83,12 +100,21 @@ export interface ConcaveCarouselHandle {
 type Settings = Required<
   Omit<
     ConcaveCarouselProps,
-    "className" | "style" | "onIndexChange" | "onSelect" | "ariaLabel" | "startIndex" | "items" | "wallText"
+    | "className"
+    | "style"
+    | "onIndexChange"
+    | "onSelect"
+    | "ariaLabel"
+    | "startIndex"
+    | "items"
+    | "wallText"
+    | "wallAction"
   >
 > & {
   reduced: boolean;
   held: boolean;
   wallText?: ConcaveCarouselWallText;
+  wallAction?: ConcaveCarouselWallAction;
 };
 
 interface Controller {
@@ -340,6 +366,21 @@ void main() {
 }
 `;
 
+const actionFragmentShader = `
+precision highp float;
+
+uniform sampler2D uMap;
+uniform float uAlpha;
+varying vec2 vUv;
+
+void main() {
+  vec4 c = texture2D(uMap, vUv);
+  float a = c.a * uAlpha;
+  if (a < 0.004) discard;
+  gl_FragColor = vec4(c.rgb * uAlpha, a);
+}
+`;
+
 let rgbContext: CanvasRenderingContext2D | null = null;
 
 const toRgb = (value: string) => {
@@ -490,6 +531,65 @@ const createRotunda = (
   textMesh.renderOrder = 2;
   scene.add(textMesh);
 
+  // ---- one wall button under the pictures, right-aligned to the cards ----
+  const ACT_FONT = 128;
+  const actCanvas = doc.createElement("canvas");
+  const actCtx = actCanvas.getContext("2d");
+  const actTexture = new THREE.CanvasTexture(actCanvas);
+  actTexture.colorSpace = THREE.NoColorSpace;
+  actTexture.premultiplyAlpha = true;
+  actTexture.minFilter = THREE.LinearFilter;
+  actTexture.magFilter = THREE.LinearFilter;
+  actTexture.generateMipmaps = false;
+  const actMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      uMap: { value: actTexture },
+      uAlpha: { value: 0 },
+      uCenter: { value: 0 },
+      uWidth: { value: 1 },
+      uHeight: { value: 0.16 },
+      uY: { value: -0.7 },
+      uK: { value: 0.3 },
+      uFloor: { value: -0.5 },
+      uMirror: { value: 0 },
+    },
+    vertexShader,
+    fragmentShader: actionFragmentShader,
+    transparent: true,
+    premultipliedAlpha: true,
+    depthTest: false,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  });
+  const actMesh = new THREE.Mesh(geometry, actMaterial);
+  actMesh.frustumCulled = false;
+  actMesh.visible = false;
+  actMesh.renderOrder = 3;
+  scene.add(actMesh);
+
+  let actKey = "";
+  let actPainted = "";
+  let actWidth = 1;
+  let actHover = false;
+
+  // A real link sits over the painted pill, so it stays keyboard and AT friendly.
+  const actLink = doc.createElement("a");
+  // Colour transparent: the pill is painted on the wall, the link only needs the hit box.
+  actLink.style.cssText =
+    "position:absolute;left:0;top:0;width:0;height:0;opacity:0;pointer-events:none;outline-offset:-2px;color:transparent;text-decoration:none;overflow:hidden;will-change:opacity,clip-path";
+  actLink.addEventListener("pointerenter", () => {
+    actHover = true;
+    schedule();
+  });
+  actLink.addEventListener("pointerleave", () => {
+    actHover = false;
+    schedule();
+  });
+  // Pointerdown would start the drag; a click would also select a card.
+  actLink.addEventListener("pointerdown", (event) => event.stopPropagation());
+  actLink.addEventListener("click", (event) => event.stopPropagation());
+  stage.appendChild(actLink);
+
   let textKey = "";
   let textWidth = 1;
   let textIndex = 0;
@@ -619,6 +719,49 @@ const createRotunda = (
     textCtx.globalAlpha = 1;
     textTexture.needsUpdate = true;
     return t < 1 ? 1 : 0;
+  };
+
+  const fitAction = () => {
+    const action = settingsRef.current.wallAction;
+    if (!actCtx || !action) return false;
+    const key = `${action.label}|${action.href}|${action.size ?? 0.16}`;
+    if (key !== actKey) {
+      actKey = key;
+      actLink.href = action.href;
+      actLink.textContent = action.label;
+      // Same box as the site button: 2em side padding, 16px text in a 40px box.
+      actCtx.font = `400 ${ACT_FONT}px ${action.font ?? textFamily()}`;
+      actCanvas.width = Math.max(2, Math.ceil(actCtx.measureText(action.label).width + ACT_FONT * 4));
+      actCanvas.height = Math.ceil(ACT_FONT * 2.5);
+      actWidth = ((action.size ?? 0.16) * actCanvas.width) / actCanvas.height;
+      actPainted = "";
+    }
+    return true;
+  };
+
+  const paintAction = () => {
+    const action = settingsRef.current.wallAction;
+    if (!actCtx || !action || !fitAction()) return;
+    const key = `${actKey}|${actHover ? 1 : 0}`;
+    if (key === actPainted) return;
+    actPainted = key;
+    const w = actCanvas.width;
+    const h = actCanvas.height;
+    const css = getComputedStyle(root);
+    actCtx.clearRect(0, 0, w, h);
+    actCtx.fillStyle = action.color?.trim() || css.getPropertyValue("--color-primary").trim() || "#ebebeb";
+    actCtx.fillRect(0, 0, w, h);
+    if (actHover) {
+      // Same white sheen the site button gets on hover.
+      actCtx.fillStyle = "rgba(255,255,255,0.12)";
+      actCtx.fillRect(0, 0, w, h);
+    }
+    actCtx.font = `400 ${ACT_FONT}px ${action.font ?? textFamily()}`;
+    actCtx.textAlign = "center";
+    actCtx.textBaseline = "middle";
+    actCtx.fillStyle = css.color || "#ebebeb";
+    actCtx.fillText(action.label, w / 2, h / 2 + ACT_FONT * 0.06);
+    actTexture.needsUpdate = true;
   };
 
   let pictures: Picture[] = [];
@@ -767,6 +910,9 @@ const createRotunda = (
     const maxSpan = Math.tan((62 * Math.PI) / 180);
     const spanFor = (u: number) => (width / u / 2) / distance;
     if (spanFor(unit) > maxSpan) unit = width / 2 / distance / maxSpan;
+    // The card height only follows the viewport height, so phones would get
+    // full-size cards; shrink the drum instead.
+    unit *= clamp(width / 640, 0.72, 1);
     const gapWorld = Math.max(0, settings.gap) / unit;
     geo.unit = unit;
     geo.width = aspect;
@@ -1172,6 +1318,75 @@ const createRotunda = (
       textMesh.visible = false;
     }
 
+    const action = settingsRef.current.wallAction;
+    if (action && actCtx) {
+      paintAction();
+      const reveal = started ? (reduced ? 1 : clamp((introEase - 0.4) / 0.4, 0, 1)) : 0;
+      const actH = action.size ?? 0.16;
+      const u = actMaterial.uniforms;
+      u.uK.value = geo.k;
+      u.uWidth.value = actWidth;
+      u.uHeight.value = actH;
+      // One card gap below the pictures.
+      u.uY.value = -0.5 - Math.max(0, settingsRef.current.gap) / geo.unit - actH / 2;
+      u.uAlpha.value = reveal;
+      actMesh.visible = reveal > 0.001;
+      if (reveal > 0.001) {
+        const half = actWidth / 2;
+        const halfY = actH / 2;
+        const project = (centre: number) => {
+          const xs: number[] = [];
+          const ys: number[] = [];
+          for (const [s, y] of [
+            [centre - half, u.uY.value + halfY],
+            [centre + half, u.uY.value + halfY],
+            [centre + half, u.uY.value - halfY],
+            [centre - half, u.uY.value - halfY],
+          ]) {
+            wallPoint(s, y, scratch).project(camera);
+            xs.push(((scratch.x + 1) / 2) * width);
+            ys.push(((1 - scratch.y) / 2) * height);
+          }
+          return { xs, ys };
+        };
+        // Slide the pill along the arc until it fits the viewport.
+        let centre = action.x ?? geo.width / 2 - half;
+        let xs: number[] = [];
+        let ys: number[] = [];
+        for (let pass = 0; pass < 3; pass++) {
+          ({ xs, ys } = project(centre));
+          const pxPerS = (xs[1] - xs[0]) / actWidth;
+          if (!(Math.abs(pxPerS) > 1e-6)) break;
+          const rightSpill = Math.max(...xs) - (width - 14);
+          const leftSpill = 14 - Math.min(...xs);
+          if (rightSpill <= 0 && leftSpill <= 0) break;
+          centre += (leftSpill > 0 ? leftSpill : -rightSpill) / pxPerS;
+        }
+        u.uCenter.value = centre;
+        const left = Math.min(...xs);
+        const top = Math.min(...ys);
+        const boxW = Math.max(Math.max(...xs) - left, 1);
+        const boxH = Math.max(Math.max(...ys) - top, 1);
+        const shape = xs
+          .map((x, i) => `${(((x - left) / boxW) * 100).toFixed(2)}% ${(((ys[i] - top) / boxH) * 100).toFixed(2)}%`)
+          .join(", ");
+        actLink.style.left = `${left.toFixed(1)}px`;
+        actLink.style.top = `${top.toFixed(1)}px`;
+        actLink.style.width = `${boxW.toFixed(1)}px`;
+        actLink.style.height = `${boxH.toFixed(1)}px`;
+        actLink.style.clipPath = `polygon(${shape})`;
+        actLink.style.opacity = "1";
+        actLink.style.pointerEvents = "auto";
+      } else {
+        actLink.style.opacity = "0";
+        actLink.style.pointerEvents = "none";
+      }
+    } else {
+      actMesh.visible = false;
+      actLink.style.opacity = "0";
+      actLink.style.pointerEvents = "none";
+    }
+
     renderer.render(scene, camera);
 
     if (busy || press || (autoplay === "drift" && brake > 0.001)) {
@@ -1461,6 +1676,9 @@ const createRotunda = (
       blank.dispose();
       textTexture.dispose();
       textMaterial.dispose();
+      actTexture.dispose();
+      actMaterial.dispose();
+      actLink.remove();
       geometry.dispose();
       renderer.dispose();
       if (!renderer.getContext().isContextLost()) renderer.forceContextLoss();
@@ -1498,6 +1716,7 @@ export const ConcaveCarousel = forwardRef<ConcaveCarouselHandle, ConcaveCarousel
       backgroundColor = "transparent",
       paused = false,
       wallText,
+      wallAction,
       dpr = 2,
       ariaLabel = "Concave carousel. Drag, scroll or use the arrow keys to turn the wall. Space pauses the motion.",
       onIndexChange,
@@ -1548,6 +1767,7 @@ export const ConcaveCarousel = forwardRef<ConcaveCarouselHandle, ConcaveCarousel
       paused,
       dpr,
       wallText,
+      wallAction,
       reduced,
       held,
     };
