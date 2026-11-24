@@ -3,48 +3,10 @@
 import { useState } from "react";
 import { ContainerCard } from "@/shared/components/ui/ContainerCard";
 import { TypoH2 } from "@/shared/components/ui/TypoH2";
-import {
-  PrismCarousel,
-  type PrismCarouselItem,
-} from "@/shared/components/ui/PrismCarousel";
+import { PrismCarousel } from "@/shared/components/ui/PrismCarousel";
+import { PROJECTS as projectList } from "@/shared/assets/projects";
 
-const PROJECTS: PrismCarouselItem[] = [
-  {
-    src: "/projects/arctis.png",
-    alt: "Arctis project",
-    title: "Arctis",
-    subtitle: "arctis.ranaufalmuha.com",
-    href: "https://arctis.ranaufalmuha.com",
-  },
-  {
-    src: "/projects/peridotvault.png",
-    alt: "PeridotVault project",
-    title: "PeridotVault",
-    subtitle: "peridotvault.com",
-    href: "https://peridotvault.com",
-  },
-  {
-    src: "/projects/procura.png",
-    alt: "Procura Project",
-    title: "Procura",
-    subtitle: "Procurement on ICP",
-    href: "https://eregx-kyaaa-aaaap-an3aa-cai.icp0.io",
-  },
-  {
-    src: "/projects/warungagent.png",
-    alt: "Warung Agent project",
-    title: "Warung Agent",
-    subtitle: "warungagent.fun",
-    href: "https://warungagent.fun",
-  },
-  {
-    src: "/projects/wiatour.png",
-    alt: "Wiatour project",
-    title: "Wiatour",
-    subtitle: "wiatour.com",
-    href: "https://wiatour.com",
-  },
-];
+const PROJECTS = projectList;
 
 const PROJECT_COUNT = PROJECTS.length;
 const formatCount = (value: number) => String(value).padStart(2, "0");

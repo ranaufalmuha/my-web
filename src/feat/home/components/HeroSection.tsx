@@ -1,14 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import photoList from "@/shared/assets/gallery.json";
+import { PROJECTS } from "@/shared/assets/projects";
 import ConcaveCarousel from "@/shared/components/react-bits/concave-carousel";
 import { useTilt } from "@/shared/hooks/useTilt";
 
-const reelItems = photoList.map((item) => ({
-  src: item.imgUrl,
-  alt: item.alt,
-}));
+const reelItems = PROJECTS.map((item) => ({ src: item.src, alt: item.alt }));
 
 export default function HeroSection() {
   // character paling depan → ikut reaksi kursor, lebih halus dari dinding

@@ -806,6 +806,7 @@ const createRotunda = (
     y: number;
     grab: number;
     origin: number;
+    pitch: number;
     moved: boolean;
     samples: { t: number; p: number }[];
   } | null = null;
@@ -824,6 +825,21 @@ const createRotunda = (
 
   const count = () => Math.max(itemsRef.current.length, 1);
   const wrap = (index: number) => ((index % count()) + count()) % count();
+
+  // Cards keep the height prop and take their width from the image's own
+  // aspect, so phone, desktop and square shots all sit uncropped.
+  const cardWidth = (index: number) =>
+    clamp(pictures[wrap(index)]?.aspect || settingsRef.current.aspect, 0.4, 3.5);
+  const cardGap = () => Math.max(0, settingsRef.current.gap) / geo.unit;
+  const centreStep = (from: number, to: number) => (cardWidth(from) + cardWidth(to)) / 2 + cardGap();
+  // Arc position of a card centre relative to the current fractional scroll.
+  const arcPos = (index: number, shown: number) => {
+    const base = Math.round(shown);
+    let s = 0;
+    for (let k = base; k < index; k++) s += centreStep(k, k + 1);
+    for (let k = index; k < base; k++) s -= centreStep(k, k + 1);
+    return s - (shown - base) * centreStep(base, base + 1);
+  };
 
   const loadPictures = () => {
     const items = itemsRef.current;
@@ -1016,11 +1032,13 @@ const createRotunda = (
   const panelAt = (clientX: number, clientY: number) => {
     const hit = hitAt(clientX, clientY);
     if (!hit) return null;
-    const index = Math.round(hit.s / geo.pitch + pos);
-    const local = hit.s - (index - pos) * geo.pitch;
-    if (Math.abs(local) > geo.width / 2 || Math.abs(hit.y) > 0.5) return null;
-    if (!facing(hit.s)) return null;
-    return index;
+    if (Math.abs(hit.y) > 0.5 || !facing(hit.s)) return null;
+    const base = Math.round(pos);
+    for (let offset = -6; offset <= 6; offset++) {
+      const index = base + offset;
+      if (Math.abs(hit.s - arcPos(index, pos)) <= cardWidth(index) / 2) return index;
+    }
+    return null;
   };
 
   const schedule = () => {
@@ -1206,11 +1224,12 @@ const createRotunda = (
     let used = 0;
     for (let offset = -Math.floor(SLOTS / 2); offset < Math.ceil(SLOTS / 2) && used < SLOTS; offset++) {
       const index = centre + offset;
-      const s = (index - shown) * geo.pitch;
+      const s = arcPos(index, shown);
+      const w = cardWidth(index);
       if (geo.k > 1e-5 && Math.abs(s * geo.k) > Math.PI * 0.98) continue;
       if (!facing(s)) continue;
-      const left = screenX(s - geo.width / 2);
-      const right = screenX(s + geo.width / 2);
+      const left = screenX(s - w / 2);
+      const right = screenX(s + w / 2);
       const middle = screenX(s);
       if (Number.isNaN(middle)) continue;
       if (Number.isNaN(left) || Number.isNaN(right)) continue;
@@ -1229,7 +1248,7 @@ const createRotunda = (
         mesh.visible = !isMirror || reflect > 0.001;
         const u = mesh.material.uniforms;
         u.uCenter.value = s;
-        u.uWidth.value = geo.width;
+        u.uWidth.value = w;
         u.uK.value = geo.k;
         u.uRadius.value = geo.radius;
         u.uAlpha.value = reveal;
@@ -1257,7 +1276,7 @@ const createRotunda = (
     for (let offset = -2; offset <= 2; offset++) {
       const index = anchor + offset;
       const label = labels[((index % LABELS) + LABELS) % LABELS];
-      const s = (index - shown) * geo.pitch;
+      const s = arcPos(index, shown);
       let opacity = 0;
       if (settings.captions && facing(s)) {
         if (label.index !== index) {
@@ -1350,7 +1369,7 @@ const createRotunda = (
           return { xs, ys };
         };
         // Slide the pill along the arc until it fits the viewport.
-        let centre = action.x ?? geo.width / 2 - half;
+        let centre = action.x ?? cardWidth(Math.round(shown)) / 2 - half;
         let xs: number[] = [];
         let ys: number[] = [];
         for (let pass = 0; pass < 3; pass++) {
@@ -1438,7 +1457,9 @@ const createRotunda = (
       if (press.moved) {
         const hit = hitAt(event.clientX, event.clientY);
         if (hit) {
-          pos = press.origin + (press.grab - hit.s) / geo.pitch;
+          // Local pitch only: mixed card widths make this an approximation once
+          // the pointer travels past a card of a different width.
+          pos = press.origin + (press.grab - hit.s) / press.pitch;
           const t = performance.now();
           press.samples.push({ t, p: pos });
           while (press.samples.length > 2 && t - press.samples[0].t > 110) press.samples.shift();
@@ -1462,6 +1483,7 @@ const createRotunda = (
       y: event.clientY,
       grab: hit ? hit.s : 0,
       origin: pos,
+      pitch: centreStep(Math.round(pos), Math.round(pos) + 1),
       moved: false,
       samples: [{ t: performance.now(), p: pos }],
     };
